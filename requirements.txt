@@ -1,0 +1,4 @@
+# Python package requirements/dependencies
+
+pyright
+
