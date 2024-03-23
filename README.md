@@ -10,7 +10,7 @@ Makefile Parser in Python
 
 ### Project
 + Package Name: mkparser-python
-+ Current Version: v0.1.0
++ Current Version: v0.2.0
 
 ## Setup
 

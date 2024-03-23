@@ -8,4 +8,8 @@ __pycache__/
 ### Virtual Environments
 env/
 
+### Python Packaging (Setuptools)
+*.egg-info/
+dist/
+
 ## Python Files
