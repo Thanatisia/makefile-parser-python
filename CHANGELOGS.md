@@ -2,6 +2,7 @@
 
 ## Table of Contents
 + [2024-03-23](#2024-03-23)
++ [2024-03-24](#2024-03-24)
 
 ## Entry Logs
 ### 2024-03-23
@@ -32,4 +33,9 @@
     - Updated source file 'main.py' in 'src/'
         + Fixed formatting
 
+### 2024-03-24
+#### 2204H
+- Updates
+    - Updated source file 'mkparser.py' in 'src/mkparser'
+        + Added Makefile parser implementation (to be tested)
 
