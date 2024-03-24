@@ -57,24 +57,50 @@ class MakefileParser():
 
                     # Check if line defines a new target
                     if line.endswith(':'):
+                        # Remove newline
                         current_target = line[:-1].strip()
-                        targets[current_target] = []
+
+                        # Initialize a new entry for the current target
+                        targets[current_target] = {"dependencies" : [], "statements" : []}
                     elif current_target:
-                        # Append dependencies to the current target
-                        dependencies = line.split()
-                        targets[current_target].extend(dependencies)
+                        # Check if line defines a new target with/without dependencies (by checking if the last element is ':'
+                        if line[:-1][0] == ':':
+                            # Split dependencies
+                            dependencies = line.split()
+                            # Append dependencies to the current target
+                            targets[current_target]['dependencies'].extend(dependencies)
+
+                        # Store each row of the target's recipe in its own list
+                        targets[current_target]['statements'].append(line.strip())
                     else:
                         # Check if line defines a variable
                         if '=' in line:
-                            parts = line.split('=')
-                            variable_name = parts[0].strip()
-                            variable_value = '='.join(parts[1:]).strip()
-                            variables[variable_name] = variable_value
+                            # Split the '=' to a LHS and RHS
+                            parts = line.split(' ')
+
+                            # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
+                            if len(parts) >= 2:
+                                # Strip the newline off the first element which is the variable name
+                                variable_name = parts[0].strip()
+
+                                # Obtain Operator
+                                operator = parts[1]
+
+                                # Set empty value
+                                variable_value = []
+
+                                # Check if variable value is provided
+                                if len(parts) >= 3:
+                                    # Obtain variable value
+                                    variable_value = parts[2:]
+
+                                # Map the variable value to the variable name in the entry mapping
+                                variables[variable_name] = {'operator': operator, 'value': variable_value}
 
                 # Close file after usage
                 makefile.close()
         except FileNotFoundError:
             print("Makefile not found.")
 
-        return targets, variables
+        return [targets, variables]
     

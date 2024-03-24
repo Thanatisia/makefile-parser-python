@@ -55,6 +55,11 @@ Makefile Parser in Python
     pip install .
     ```
 
+- Install locally in editable development mode
+    ```bash
+    pip install -e .
+    ```
+
 - Install Python package using GitHub repository via setuptools
     ```bash
     pip install git+https://github.com/Thanatisia/makefile-parser-python

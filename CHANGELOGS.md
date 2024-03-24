@@ -44,3 +44,24 @@
     - Updated document 'README.md'
         + Fixed pip install URL
 
+#### 2344H
+- New
+    - Added new directory 'tests/' for writing unit tests and other tests
+        + Added new unit test source 'unittest.py' for holding the main unit tests
+        - Added new directory 'resources/' for holding test resource files
+            - Added new directory 'Makefiles' for holding Makefile resources
+                + Added new test Makefile 'test.Makefile'
+
+- Updates
+    - Updated document 'README.md'
+        + Added new instruction for installing package in editable local development mode
+    - Updated document 'requirements.txt'
+        + Added the repository's github link as an installable pip package
+    - Updated source file 'main.py' in 'src/'
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        + Swapped parameter/argument signatures
+        + The variable dictionary now returns the operator (string), and the values (list) mapped to the variable name
+        - Fixing implementation of Makefile Parser in 'parse_makefiles();'
+            - Target is still bugged
+                + Having issues detecting if dependencies is found
+
