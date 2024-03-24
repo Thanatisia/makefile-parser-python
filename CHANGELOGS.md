@@ -39,3 +39,8 @@
     - Updated source file 'mkparser.py' in 'src/mkparser'
         + Added Makefile parser implementation (to be tested)
 
+#### 2208H
+- Updates
+    - Updated document 'README.md'
+        + Fixed pip install URL
+
