@@ -41,6 +41,8 @@ def main():
     print("Targets")
     print("=======")
     for k,v in targets.items():
+        print("{} = {}".format(k,v))
+        """
         print("{} = ".format(k))
         for curr_target_key, curr_target_value in v.items():
             print("RAW: {} = {}".format(curr_target_key, curr_target_value))
@@ -48,12 +50,14 @@ def main():
             # Perform type checks
             if type(curr_target_value) == list:
                 # List type, print
+                print("\t\t{}".format(curr_target_value))
                 for i in range(len(curr_target_value)):
                     # Get current value
                     curr_val = curr_target_value[i]
                     print("\t\t{}".format(curr_val))
             else:
                 print("\t\t{}".format(curr_target_value))
+        """
 
     print("")
 

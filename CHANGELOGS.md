@@ -3,6 +3,7 @@
 ## Table of Contents
 + [2024-03-23](#2024-03-23)
 + [2024-03-24](#2024-03-24)
++ [2024-03-25](#2024-03-25)
 
 ## Entry Logs
 ### 2024-03-23
@@ -64,4 +65,15 @@
         - Fixing implementation of Makefile Parser in 'parse_makefiles();'
             - Target is still bugged
                 + Having issues detecting if dependencies is found
+
+### 2024-03-25
+#### 1202H
+- Updates
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Modified to match test requirements
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        + Fixed Makefile to Python parser logic - To be tested
+        + Wrote documentation comment headers in function
+        - Added new function 'export_makefile' to export the target and variable dictionaries into a proper Makefile structure
+            + To be tested with print statement first
 

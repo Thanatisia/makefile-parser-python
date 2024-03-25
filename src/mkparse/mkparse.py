@@ -27,11 +27,54 @@ class MakefileParser():
         :: Makefile target/rules Format:
              [target-name]: [dependencies]
                  # statements...
+
+        :: Output
+        - targets: Pass the new targets list you wish to export
+            + Type: Dictionary
+            - Format
+                {
+                    "target-name" : {
+                        "dependencies" : [your, dependencies, here],
+                        "statements" : [your, statements, here]
+                    }
+                }
+            - Key-Value Explanation
+                - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                    - Key-Value Mappings
+                        - dependencies : Specify a list of all dependencies 
+                            - Notes: 
+                                - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                    - i.e.
+                                        [target-name]: [dependencies ...]
+                        - statements : Specify a list of all rows of statements to write under the target
+        - variables : Pass the new variables list you wish to export
+            + Type: Dictionary 
+            - Format
+                {
+                    "variable-name" : {
+                        "operator" : "operator (i.e. =|?=|:=)",
+                        "value" : [your, values, here]
+                    }
+                }
+            - Key-Value Explanation
+                - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                    - Key-Value Mappings
+                        - operator : Specify the operator to map the variable to its value string/array/list
+                            + Type: String
+                            - Operator Keyword Types
+                                + '='
+                                + '?='
+                                + ':='
+                        - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                            + Type: List
         """
         # Initialize Variables
         targets = {}
         variables = {}
-        current_target = None
+        curr_target = None
+        curr_target_name = ""
+        line_number = 0
+        comments = {} # Store comments here; map line number to the comment
 
         # Process and perform data validation + sanitization
         
@@ -48,54 +91,97 @@ class MakefileParser():
             with open(os.path.join(makefile_path, makefile_name), 'r') as makefile:
                 for line in makefile:
                     # Remove comments
-                    line = line.split('#', 1)[0]
-                    line = line.strip()
+                    # line = line.split('#', 1)[0]
+                    line = line.rstrip()
 
                     # Check if line is empty after removing comments
                     if not line:
+                        # Line is empty, continue
                         continue
 
-                    # Check if line defines a new target
-                    if line.endswith(':'):
-                        # Remove newline
-                        current_target = line[:-1].strip()
+                    # Check if line contains a '=' (defines a variable)
+                    if '=' in line:
+                        # Split the '=' to a LHS and RHS
+                        parts = line.split(' ')
 
-                        # Initialize a new entry for the current target
-                        targets[current_target] = {"dependencies" : [], "statements" : []}
-                    elif current_target:
-                        # Check if line defines a new target with/without dependencies (by checking if the last element is ':'
-                        if line[:-1][0] == ':':
-                            # Split dependencies
-                            dependencies = line.split()
-                            # Append dependencies to the current target
-                            targets[current_target]['dependencies'].extend(dependencies)
+                        # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
+                        if len(parts) >= 2:
+                            # Strip the newline off the first element which is the variable name
+                            variable_name = parts[0].strip()
+
+                            # Obtain Operator
+                            operator = parts[1]
+
+                            # Set empty value
+                            variable_value = []
+
+                            # Check if variable value is provided
+                            if len(parts) >= 3:
+                                # Obtain variable value
+                                variable_value = parts[2:]
+
+                            # Map the variable value to the variable name in the entry mapping
+                            variables[variable_name] = {'operator': operator, 'value': variable_value}
+
+                    # Check if line contains ':' (defines a target)
+                    elif ':' in line:
+                        # Check if line ends with ':' (does not have any dependencies)
+                        if line.endswith(':'):
+                            # Ends with ':' == there are no dependencies, also is definitely a target
+                            curr_target_name = line.split(':')[0].strip()
+
+                            # Initialize a new entry for the current target
+                            targets[curr_target_name] = {"dependencies" : [], "statements" : []}
+                        else:
+                            # Does not end with ':' == there are dependencies
+
+                            # Check if line is really a target and not a statement
+                            if not ('\t' in line):
+                                # This is a target with dependencies
+
+                                # Split line by ':'
+                                curr_target = line.split(':')
+                                curr_target_name = curr_target[0].strip()
+                                curr_target_dependencies = curr_target[1].strip()
+
+                                # Initialize a new entry for the current target
+                                targets[curr_target_name] = {"dependencies" : [], "statements" : []}
+
+                                # Null-value validation
+                                if curr_target_dependencies == "":
+                                    curr_target_dependencies = None
+
+                                # Remove newline
+                                # current_target = line[:-1].rstrip()
+
+                                # Check if dependencies are required
+                                if not(curr_target_dependencies == None):
+                                    # Are required
+                                    # Append dependencies to the current target
+                                    targets[curr_target_name]['dependencies'].append(curr_target_dependencies)
+
+                    # Not target = statements, append statements to the target
+
+                    # Check for empty name
+                    if not (curr_target_name == '') :
+                        # There's tab, a target does not have indentations (means that this is a statement)
 
                         # Store each row of the target's recipe in its own list
-                        targets[current_target]['statements'].append(line.strip())
-                    else:
-                        # Check if line defines a variable
-                        if '=' in line:
-                            # Split the '=' to a LHS and RHS
-                            parts = line.split(' ')
+                        targets[curr_target_name]['statements'].append(line.rstrip())
 
-                            # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
-                            if len(parts) >= 2:
-                                # Strip the newline off the first element which is the variable name
-                                variable_name = parts[0].strip()
+                    # Increment Line Number
+                    line_number += 1
 
-                                # Obtain Operator
-                                operator = parts[1]
+                for curr_target_name,curr_target_values in targets.items():
+                    # Get current target's dependencies
+                    curr_target_dependencies = curr_target_values["dependencies"]
 
-                                # Set empty value
-                                variable_value = []
+                    # Get current target's statements
+                    curr_target_statements = curr_target_values["statements"]
 
-                                # Check if variable value is provided
-                                if len(parts) >= 3:
-                                    # Obtain variable value
-                                    variable_value = parts[2:]
-
-                                # Map the variable value to the variable name in the entry mapping
-                                variables[variable_name] = {'operator': operator, 'value': variable_value}
+                    # Remove the first line from the list
+                    targets[curr_target_name]['statements'] = curr_target_statements[1:]
+                    print("Sanity Check: {}".format(targets[curr_target_name]['statements']))
 
                 # Close file after usage
                 makefile.close()
@@ -103,4 +189,96 @@ class MakefileParser():
             print("Makefile not found.")
 
         return [targets, variables]
-    
+
+    def export_Makefile(self, targets:dict, variables:dict, makefile_name="Makefile", makefile_path="."):
+        """
+        Export the targets and variables list into an output Makefile
+
+        :: Params
+        - targets: Pass the new targets list you wish to export
+            + Type: Dictionary
+            - Format
+                {
+                    "target-name" : {
+                        "dependencies" : [your, dependencies, here],
+                        "statements" : [your, statements, here]
+                    }
+                }
+            - Key-Value Explanation
+                - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                    - Key-Value Mappings
+                        - dependencies : Specify a list of all dependencies 
+                            - Notes: 
+                                - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                    - i.e.
+                                        [target-name]: [dependencies ...]
+                        - statements : Specify a list of all rows of statements to write under the target
+        - variables : Pass the new variables list you wish to export
+            + Type: Dictionary 
+            - Format
+                {
+                    "variable-name" : {
+                        "operator" : "operator (i.e. =|?=|:=)",
+                        "value" : [your, values, here]
+                    }
+                }
+            - Key-Value Explanation
+                - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                    - Key-Value Mappings
+                        - operator : Specify the operator to map the variable to its value string/array/list
+                            + Type: String
+                            - Operator Keyword Types
+                                + '='
+                                + '?='
+                                + ':='
+                        - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                            + Type: List
+        - makefile_name : Specify the name of the output Makefile to export to
+            + Type: String
+            + Default Value: "Makefile"
+        - makefile_path : Specify the path containing the output Makefile to export to
+            + Type: String
+            + Default Value: "."
+
+        :: Output
+        - File Name: [makefile_path]/[makefile_name]
+        - File Type: Makefile
+        - Format:
+            ```
+            [variable-name] = variable values
+            [target-name] : your dependencies here
+                # Instructions/statements
+            ```
+        """
+        # Initialize Variables
+        makefile_fullpath = os.path.join(makefile_path, makefile_name)
+
+        # Check if file exists
+        if os.path.isfile(makefile_fullpath):
+            # Open file
+            with open(makefile_fullpath, "a+") as export_Makefile:
+                # Loop through all variables
+                for variable_name, variable_mappings in variables.items():
+                    # Obtain variable map operator
+                    variable_operator = variable_mappings["operator"]
+
+                    # Obtain variable values
+                    variable_values = variable_mappings["value"]
+
+                    # Write to Makefile
+                    print("{} {} {}".format(variable_name, variable_operator, variable_values))
+
+                # Loop through all targets
+                for target_name, target_mappings in targets.items():
+                    # Obtain target dependencies
+                    target_dependencies = target_mappings["dependencies"]
+
+                    # Obtain target statements
+                    target_statements = target_mappings["statements"]
+
+                    # Write to Makefile
+                    print("{}: {}\n{}".format(target_name, target_dependencies, target_statements))
+
+                # Close file after usage
+                export_Makefile.close()
+
