@@ -6,8 +6,9 @@ setup(
     description="A simple Makefile Parser written in Python that is designed to simplify the process of importing Makefile contents into python as dictionary (key-value mappings (i.e. hashmap/associative arrays)) objects",
     author='Thanatisia',
     author_email='55834101+Thanatisia@users.noreply.github.com',
-    packages=["mkparse"] ,# Default: find_packages()
-    package_dir={'mkparse':'src'},
+    # packages=["mkparse"] ,# Default: find_packages()
+    # package_dir={'mkparse':'src'},
+    package_dir={"": "src"},
     install_requires=[
         # List your dependencies here
     ],
