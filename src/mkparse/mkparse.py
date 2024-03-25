@@ -305,3 +305,83 @@ class MakefileParser():
 
         return error_msg
 
+    def format_makefile_Contents(self, targets:dict, variables:dict) -> dict:
+        """
+        Format provided makefile targets and variables into content strings
+
+        :: Params
+        - targets: Specify the Makefile targets to format
+            + Type: Dictionary
+            - Format
+                {
+                    "target-name" : {
+                        "dependencies" : [your, dependencies, here],
+                        "statements" : [your, statements, here]
+                    }
+                }
+            - Key-Value Explanation
+                - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                    - Key-Value Mappings
+                        - dependencies : Specify a list of all dependencies 
+                            - Notes: 
+                                - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                    - i.e.
+                                        [target-name]: [dependencies ...]
+                        - statements : Specify a list of all rows of statements to write under the target
+        - variables: Specify the Makefile variables to format
+            + Type: Dictionary
+            - Format
+                {
+                    "variable-name" : {
+                        "operator" : "operator (i.e. =|?=|:=)",
+                        "value" : [your, values, here]
+                    }
+                }
+            - Key-Value Explanation
+                - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                    - Key-Value Mappings
+                        - operator : Specify the operator to map the variable to its value string/array/list
+                            + Type: String
+                            - Operator Keyword Types
+                                + '='
+                                + '?='
+                                + ':='
+                        - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                            + Type: List
+
+        :: Output
+        - contents: Dictionary (key-value) Mapping of the formatted strings, stored in a list of the targets and variables respectively
+            + Type: Dictionary
+            - Key-Value mappings
+                - targets : List of all targets formatted into a printable string
+                    + Type: List
+                - variables : List of all variables formatted into a printable string
+                    + Type: List
+        """
+        # Initialize Variables
+        contents = {"targets" : [], "variables" : []}
+
+        for var_name, var_values in variables.items():
+            # Get variable operator
+            curr_var_operator = var_values["operator"]
+
+            # Get variable value
+            curr_var_value = ' '.join(var_values["value"])
+
+            # Format current variable
+            curr_out_string = "{} {} {}".format(var_name, curr_var_operator, curr_var_value)
+            contents["variables"].append(curr_out_string)
+
+        for target_name, target_settings in targets.items():
+            # Get current target dependencies
+            curr_target_dependencies = ' '.join(target_settings["dependencies"])
+
+            # Get current target statements
+            curr_target_statements = '\n'.join(target_settings["statements"])
+
+            # Format current variable
+            curr_out_string = "{}: {}\n{}\n".format(target_name, curr_target_dependencies, curr_target_statements)
+            contents["targets"].append(curr_out_string)
+
+        return contents
+
