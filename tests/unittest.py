@@ -10,14 +10,14 @@ def test_Makefile(makefile_name = "Makefile", makefile_path = ".") -> list:
     makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Import Makefile contents into application runtime
-    targets, variables = makefile_parser.parse_makefile(makefile_name, makefile_path)
+    targets, variables, comments = makefile_parser.parse_makefile(makefile_name, makefile_path)
 
     # Process imported Makefile contents
 
     # Use processed data
 
     # Output processed data
-    return [targets, variables]
+    return [targets, variables, comments]
 
 def test_export_Makefile(targets, variables, makefile_name="Makefile", makefile_path=".") -> None:
     # Initialize Variables
@@ -49,7 +49,7 @@ def main():
         makefile_name = argv[1]
 
     # Test Makefile import
-    targets, variables = test_Makefile(makefile_name, makefile_path)
+    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
     print("=======")
     print("Targets")
     print("=======")

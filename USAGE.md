@@ -37,6 +37,78 @@ Information regarding the various ways to use this Makefile parser
             - Values
                 + targets   : Makefile rules/targets + dependencies
                 + variables : Makefile variables/build arguments
+                + comments  : Makefile comments from the global scope (not tied to any targets); Currently unused
+    - `.export_Makefile(targets:dict, variables:dict, makefile_name="Makefile", makefile_path=".")` : Export the targets and variables list into an output Makefile
+        - Parameter/Argument Signatures
+            - targets: Pass the new targets list you wish to export
+                + Type: Dictionary
+                - Format
+                    ```python
+                    {
+                        "target-name" : {
+                            "dependencies" : [your, dependencies, here],
+                            "statements" : [your, statements, here]
+                        }
+                    }
+                    ```
+                - Key-Value Explanation
+                    - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                        - Key-Value Mappings
+                            - dependencies : Specify a list of all dependencies 
+                                - Notes: 
+                                    - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                        - i.e.
+                                            ```make
+                                            [target-name]: [dependencies ...]
+                                            ```
+                            - statements : Specify a list of all rows of statements to write under the target
+                                - Examples
+                                    ```make
+                                    [target-name]:
+                                        # Statements...
+                                    ```
+            - variables : Pass the new variables list you wish to export
+                + Type: Dictionary 
+                - Format
+                    ```python
+                    {
+                        "variable-name" : {
+                            "operator" : "operator (i.e. =|?=|:=)",
+                            "value" : [your, values, here]
+                        }
+                    }
+                    ```
+                - Key-Value Explanation
+                    - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                        - Key-Value Mappings
+                            - operator : Specify the operator to map the variable to its value string/array/list
+                                + Type: String
+                                - Operator Keyword Types
+                                    + '='
+                                    + '?='
+                                    + ':='
+                            - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                                + Type: List
+            - makefile_name : Specify the name of the output Makefile to export to
+                + Type: String
+                + Default Value: "Makefile"
+            - makefile_path : Specify the path containing the output Makefile to export to
+                + Type: String
+                + Default Value: "." (Current Working Directory)
+
+        - Output
+            + Type: void/null/None
+            - Write the provided Makefile specifications to an output Makefile of the following attributes
+                + File Name: [makefile_path]/[makefile_name]
+                + File Type: Makefile
+                - Format:
+                    ```
+                    [variable-name] = variable values
+
+                    [target-name] : your dependencies here
+                        # Instructions/statements
+                    ```
+        """
 
 ### Data Classes/Types
 
@@ -63,16 +135,38 @@ Information regarding the various ways to use this Makefile parser
     makefile_name = "Makefile"
     ```
 
+- (Optional) Obtain makefile arguments as a CLI argument
+    ```python
+    # Initialize Variables
+    exec = sys.argv[0]
+    argv = sys.argv[1:]
+    argc = len(argv)
+    makefile_path = "."
+    makefile_name = "Makefile"
+
+    # Get Arguments
+    if argc >= 2:
+        makefile_path = argv[0]
+        makefile_name = argv[1]
+    ```
+
 - Initialize Module Classes
     - MakefileParser : The primary makefile file parser
         ```python
-        makefile_parser = MakefileParser(makefile_path, makefile_name) # Initialize Makefile Parser
+        makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
         ```
 
 - Import Makefile file contents into python dictionary (key-value mappings; i.e. HashMap/Associative Array)
+    - Notes
+        - If you do not require any of the return objects
+            - You can just replace the output object with '_'
+                - i.e.
+                    ```python
+                    targets, variables, _ = makefile_parser.parse_makefile(makefile_name, makefile_path)
+                    ```
     ```python
     # Import Makefile contents into application runtime
-    targets, variables = makefile_parser.parse_makefile(makefile_path, makefile_name)
+    targets, variables, comments = makefile_parser.parse_makefile(makefile_name, makefile_path)
     ```
 
 - Process imported Makefile contents
@@ -86,8 +180,11 @@ Information regarding the various ways to use this Makefile parser
     ```
 
 - Output processed data 
-    ```python
-    ```
+    - Export dictionaries to Makefile
+        ```python
+        # Export Makefile dictionaries to Makefile
+        makefile_parser.export_Makefile(targets, variables, makefile_name, makefile_path)       
+        ```
 
 ## Resources
 

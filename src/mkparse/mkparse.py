@@ -67,6 +67,16 @@ class MakefileParser():
                                 + ':='
                         - value : Specify the value string/array/list (as a list) that you want to map to the variable
                             + Type: List
+        - comments : Pass the updated global comments list you wish to export (NOTE: Currently unused; for future development plans)
+            + Type: Dictionary 
+            - Format
+                {
+                    "line-number" : comment-from-that-line
+                }
+            - Key-Value Explanation
+                - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                    - Key-Value Mappings
+                        - line-number: The line number; this is mapped to the comment stored at that line
         """
         # Initialize Variables
         targets = {}
@@ -99,8 +109,13 @@ class MakefileParser():
                         # Line is empty, continue
                         continue
 
+                    # Check if line contains a '#' (a comment)
+                    if line[0] == '#':
+                        # Store all comments
+                        comments[line_number] = line
+
                     # Check if line contains a '=' (defines a variable)
-                    if '=' in line:
+                    elif '=' in line:
                         # Split the '=' to a LHS and RHS
                         parts = line.split(' ')
 
@@ -188,7 +203,7 @@ class MakefileParser():
         except FileNotFoundError:
             print("Makefile not found.")
 
-        return [targets, variables]
+        return [targets, variables, comments]
 
     def export_Makefile(self, targets:dict, variables:dict, makefile_name="Makefile", makefile_path="."):
         """
@@ -270,8 +285,6 @@ class MakefileParser():
                     export_Makefile.write(out_str)
 
                 export_Makefile.write("\n")
-
-                print("")
 
                 # Loop through all targets
                 for target_name, target_mappings in targets.items():

@@ -87,3 +87,25 @@
         - TODO
             + To implement reading of comments outside of variables and targets
 
+#### 1430H
++ Version: v0.3.0
+
+- Version Changes
+    + Added working Makefile-to-Python import/parser support
+    + Added working Python-to-Makefile export function
+
+- TODO Ideas
+    + Add comment import such that all comments on the global scope (not tied to any targets) will be retrievable
+
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'makefile_parse()'
+            + Added logical check for comments ('#') and to map that line number to the comment for future use
+            + Added 'comments' to the return list
+            + Added 'comments' to the documentation multiline docstring
+    - Updated document 'USAGE.md'
+        + Fixed usage example of 'parse_makefile()': Swapped the argument signatures
+        + Updated return list of 'parse_makefile()'
+        + Added documentation for function 'export_makefile()'
+        + Updated general usage examples
+
