@@ -129,3 +129,8 @@
 - Version Changes
     + Fixed 'setup.py' python packaging via setuptools
 
+#### 2010H
+- Updates
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Testing fix for python packaging via setuptools
+
