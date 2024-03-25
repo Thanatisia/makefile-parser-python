@@ -196,7 +196,6 @@ class MakefileParser():
 
                     # Remove the first line from the list
                     targets[curr_target_name]['statements'] = curr_target_statements[1:]
-                    print("Sanity Check: {}".format(targets[curr_target_name]['statements']))
 
                 # Close file after usage
                 makefile.close()
@@ -205,7 +204,7 @@ class MakefileParser():
 
         return [targets, variables, comments]
 
-    def export_Makefile(self, targets:dict, variables:dict, makefile_name="Makefile", makefile_path="."):
+    def export_Makefile(self, targets:dict, variables:dict, makefile_name="Makefile", makefile_path=".") -> str:
         """
         Export the targets and variables list into an output Makefile
 
@@ -266,6 +265,7 @@ class MakefileParser():
             ```
         """
         # Initialize Variables
+        error_msg = ""
         makefile_fullpath = os.path.join(makefile_path, makefile_name)
 
         # Check if file exists
@@ -301,5 +301,7 @@ class MakefileParser():
                 # Close file after usage
                 export_Makefile.close()
         else:
-            print("Makefile {} already exists".format(makefile_fullpath))
+            error_msg = "Makefile {} already exists".format(makefile_fullpath)
+
+        return error_msg
 

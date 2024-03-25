@@ -134,3 +134,25 @@
     - Updated Python packaging script 'setup.py' for setuptools
         + Testing fix for python packaging via setuptools
 
+#### 2137H
++ Version: 0.3.3
+
+- Version Changes
+    + Removed unnecessary prints from 'parse_makefile()'
+    + Error message return in 'export_makefile()'
+    + Explicit return type definition in 'export_makefile()'
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.3.3
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.3.3
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'parse_makefile()'
+            + Removed 'Sanity Check' print
+        - Function 'export_makefile()'
+            + Added explicit return type
+            + Added error message substitution and return
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Added error message output in the test for export_makefile
+
