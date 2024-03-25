@@ -117,3 +117,10 @@
     - Updated Python packaging script 'setup.py' for setuptools
         + Replaced 'find_packages()' with a statically-defined package structure
 
+#### 1555H
++ Version: 3.1
+
+- Version Changes
+    + Fixed 'setup.py' python packaging via setuptools
+
+
