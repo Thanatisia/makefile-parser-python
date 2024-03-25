@@ -84,7 +84,11 @@ def main():
 
     # Export Makefile
     print("Testing Export Makefile...")
-    test_export_Makefile(targets, variables)
+    err_msg = test_export_Makefile(targets, variables)
+    if err_msg != None:
+        print("Error during exporting: {}".format(err_msg))
+    else:
+        print("Export successful")
 
 if __name__ == "__main__":
     main()
