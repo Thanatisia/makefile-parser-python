@@ -118,9 +118,14 @@
         + Replaced 'find_packages()' with a statically-defined package structure
 
 #### 1555H
-+ Version: 3.1
++ Version: 0.3.1
 
 - Version Changes
     + Fixed 'setup.py' python packaging via setuptools
 
+#### 1956H
++ Version: 0.3.2
+
+- Version Changes
+    + Fixed 'setup.py' python packaging via setuptools
 
