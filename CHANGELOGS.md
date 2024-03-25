@@ -109,3 +109,11 @@
         + Added documentation for function 'export_makefile()'
         + Updated general usage examples
 
+#### 1552H
+- New
+    + Added new '__init__.py' package/module constructor/initializor script in 'src/mkparse'
+
+- Updates
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Replaced 'find_packages()' with a statically-defined package structure
+
