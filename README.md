@@ -10,7 +10,7 @@ Makefile Parser in Python
 
 ### Project
 + Package Name: mkparser-python
-+ Current Version: v0.2.0
++ Current Version: v0.3.0
 
 ## Setup
 
@@ -55,9 +55,14 @@ Makefile Parser in Python
     pip install .
     ```
 
+- Install locally in editable development mode
+    ```bash
+    pip install -e .
+    ```
+
 - Install Python package using GitHub repository via setuptools
     ```bash
-    pip install https://github.com/Thanatisia/mkparser
+    pip install git+https://github.com/Thanatisia/makefile-parser-python
     ```
 
 ## Wiki

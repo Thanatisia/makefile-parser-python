@@ -9,10 +9,10 @@ def main():
     # Initialize Variables
     makefile_path = "."
     makefile_name = "Makefile"
-    makefile_parser = MakefileParser(makefile_path, makefile_name) # Initialize Makefile Parser
+    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Import Makefile contents into application runtime
-    targets, variables = makefile_parser.parse_makefile(makefile_path, makefile_name)
+    targets, variables = makefile_parser.parse_makefile(makefile_name, makefile_path)
 
     # Process imported Makefile contents
 
