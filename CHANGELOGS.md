@@ -77,3 +77,13 @@
         - Added new function 'export_makefile' to export the target and variable dictionaries into a proper Makefile structure
             + To be tested with print statement first
 
+#### 1335H
+- Updates
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Modified to match test requirements
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Fixed function 'export_Makefile'
+            + Able to export to a Makefile 
+        - TODO
+            + To implement reading of comments outside of variables and targets
+

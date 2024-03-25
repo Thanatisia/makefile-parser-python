@@ -254,7 +254,7 @@ class MakefileParser():
         makefile_fullpath = os.path.join(makefile_path, makefile_name)
 
         # Check if file exists
-        if os.path.isfile(makefile_fullpath):
+        if not (os.path.isfile(makefile_fullpath)):
             # Open file
             with open(makefile_fullpath, "a+") as export_Makefile:
                 # Loop through all variables
@@ -263,22 +263,30 @@ class MakefileParser():
                     variable_operator = variable_mappings["operator"]
 
                     # Obtain variable values
-                    variable_values = variable_mappings["value"]
+                    variable_values = ' '.join(variable_mappings["value"])
 
                     # Write to Makefile
-                    print("{} {} {}".format(variable_name, variable_operator, variable_values))
+                    out_str = "{} {} {}\n".format(variable_name, variable_operator, variable_values)
+                    export_Makefile.write(out_str)
+
+                export_Makefile.write("\n")
+
+                print("")
 
                 # Loop through all targets
                 for target_name, target_mappings in targets.items():
                     # Obtain target dependencies
-                    target_dependencies = target_mappings["dependencies"]
+                    target_dependencies = ' '.join(target_mappings["dependencies"])
 
                     # Obtain target statements
-                    target_statements = target_mappings["statements"]
+                    target_statements = '\n'.join(target_mappings["statements"])
 
                     # Write to Makefile
-                    print("{}: {}\n{}".format(target_name, target_dependencies, target_statements))
+                    out_str = "{}: {}\n{}\n".format(target_name, target_dependencies, target_statements)
+                    export_Makefile.write(out_str + "\n")
 
                 # Close file after usage
                 export_Makefile.close()
+        else:
+            print("Makefile {} already exists".format(makefile_fullpath))
 

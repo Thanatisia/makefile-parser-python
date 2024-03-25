@@ -19,6 +19,19 @@ def test_Makefile(makefile_name = "Makefile", makefile_path = ".") -> list:
     # Output processed data
     return [targets, variables]
 
+def test_export_Makefile(targets, variables, makefile_name="Makefile", makefile_path=".") -> None:
+    # Initialize Variables
+    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
+
+    # Export Makefile dictionaries to Makefile
+    makefile_parser.export_Makefile(targets, variables, makefile_name, makefile_path)
+
+    # Process imported Makefile contents
+
+    # Use processed data
+
+    # Output processed data
+
 def main():
     """
     Unit Test launcher
@@ -66,6 +79,12 @@ def main():
     print("=========")
     for k,v in variables.items():
         print("{} = {}".format(k,v))
+
+    print("")
+
+    # Export Makefile
+    print("Testing Export Makefile...")
+    test_export_Makefile(targets, variables)
 
 if __name__ == "__main__":
     main()
