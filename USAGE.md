@@ -108,7 +108,63 @@ Information regarding the various ways to use this Makefile parser
                     [target-name] : your dependencies here
                         # Instructions/statements
                     ```
-        """
+
+    - `def format_makefile_Contents(self, targets:dict, variables:dict) -> dict`: Format provided makefile targets and variables into content strings
+        - Parameter/Argument Signature
+            - targets: Specify the Makefile targets to format
+                + Type: Dictionary
+                - Format
+                    {
+                        "target-name" : {
+                            "dependencies" : [your, dependencies, here],
+                            "statements" : [your, statements, here]
+                        }
+                    }
+                - Key-Value Explanation
+                    - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                        - Key-Value Mappings
+                            - dependencies : Specify a list of all dependencies 
+                                - Notes: 
+                                    - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                        - i.e.
+                                            [target-name]: [dependencies ...]
+                            - statements : Specify a list of all rows of statements to write under the target
+            - variables: Specify the Makefile variables to format
+                + Type: Dictionary
+                - Format
+                    {
+                        "variable-name" : {
+                            "operator" : "operator (i.e. =|?=|:=)",
+                            "value" : [your, values, here]
+                        }
+                    }
+                - Key-Value Explanation
+                    - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                        - Key-Value Mappings
+                            - operator : Specify the operator to map the variable to its value string/array/list
+                                + Type: String
+                                - Operator Keyword Types
+                                    + '='
+                                    + '?='
+                                    + ':='
+                            - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                                + Type: List
+
+        - Return
+            - contents: Dictionary (key-value) Mapping of the formatted strings, stored in a list of the targets and variables respectively
+                + Type: Dictionary
+                - Key-Value mappings
+                    - targets : List of all targets formatted into a printable string
+                        + Type: List
+                    - variables : List of all variables formatted into a printable string
+                        + Type: List
+                + Format
+                    ```python
+                    contents = {
+                        "targets" : [],
+                        "variables" : []
+                    }
+                    ```
 
 ### Data Classes/Types
 
@@ -170,13 +226,39 @@ Information regarding the various ways to use this Makefile parser
     ```
 
 - Process imported Makefile contents
-    ```python
-    ```
+    - Format Makefile contents into string
+        ```python
+        # Format Makefile output into formatted string
+        formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets, variables)
+
+        # Process imported Makefile contents
+        formatted_makefile_Targets = formatted_makefile_Contents["targets"]
+        formatted_makefile_Variables = formatted_makefile_Contents["variables"]
+        ```
 
 - Use processed data
     ```python
-    print("Targets: {}".format(targets))
-    print("Variables: {}".format(variables))
+    print("=========")
+    print("Variables")
+    print("=========")
+    for i in range(len(formatted_makefile_Variables)):
+        # Get current line
+        curr_line = formatted_makefile_Variables[i]
+        # Print
+        print(curr_line)
+
+    print("")
+
+    print("=======")
+    print("Targets")
+    print("=======")
+    for i in range(len(formatted_makefile_Targets)):
+        # Get current line
+        curr_line = formatted_makefile_Targets[i]
+        # Print
+        print(curr_line)
+
+    print("")
     ```
 
 - Output processed data 

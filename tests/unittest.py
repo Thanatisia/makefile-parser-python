@@ -32,6 +32,22 @@ def test_export_Makefile(targets, variables, makefile_name="Makefile", makefile_
 
     # Output processed data
 
+def test_format_Makefile(targets, variables, makefile_name="Makefile", makefile_path=".") -> list:
+    # Initialize Variables
+    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
+
+    # Format Makefile output into formatted string
+    formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets, variables)
+
+    # Process imported Makefile contents
+    formatted_makefile_Targets = formatted_makefile_Contents["targets"]
+    formatted_makefile_Variables = formatted_makefile_Contents["variables"]
+
+    # Use processed data
+
+    # Output processed data
+    return [formatted_makefile_Targets, formatted_makefile_Variables]
+
 def main():
     """
     Unit Test launcher
@@ -49,36 +65,33 @@ def main():
         makefile_name = argv[1]
 
     # Test Makefile import
+    print("Testing Makefile import...")
     targets, variables, comments = test_Makefile(makefile_name, makefile_path)
-    print("=======")
-    print("Targets")
-    print("=======")
-    for k,v in targets.items():
-        print("{} = {}".format(k,v))
-        """
-        print("{} = ".format(k))
-        for curr_target_key, curr_target_value in v.items():
-            print("RAW: {} = {}".format(curr_target_key, curr_target_value))
-            print("[{}]".format(curr_target_key))
-            # Perform type checks
-            if type(curr_target_value) == list:
-                # List type, print
-                print("\t\t{}".format(curr_target_value))
-                for i in range(len(curr_target_value)):
-                    # Get current value
-                    curr_val = curr_target_value[i]
-                    print("\t\t{}".format(curr_val))
-            else:
-                print("\t\t{}".format(curr_target_value))
-        """
 
     print("")
 
+    # Test Makefile data formatting
+    print("Testing Makefile data formatting...")
+    formatted_makefile_Targets, formatted_makefile_Variables = test_format_Makefile(targets, variables, makefile_name, makefile_path)
     print("=========")
     print("Variables")
     print("=========")
-    for k,v in variables.items():
-        print("{} = {}".format(k,v))
+    for i in range(len(formatted_makefile_Variables)):
+        # Get current line
+        curr_line = formatted_makefile_Variables[i]
+        # Print
+        print(curr_line)
+
+    print("")
+
+    print("=======")
+    print("Targets")
+    print("=======")
+    for i in range(len(formatted_makefile_Targets)):
+        # Get current line
+        curr_line = formatted_makefile_Targets[i]
+        # Print
+        print(curr_line)
 
     print("")
 

@@ -156,3 +156,25 @@
     - Updated unit test file 'unittest.py' in 'tests/'
         + Added error message output in the test for export_makefile
 
+#### 2217H
++ Version: v0.4.0
+
+- Version Changes
+    - mkparse
+        + Added new function 'format_makefile_Contents(...)': Function to format the imported targets and variables into printable string then appended into lists of the respective types
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.0
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.0
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        + Added new function 'format_makefile_Contents': Function to format the imported targets and variables into printable string then appended into lists of the respective types
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Performed some cleanup
+        + Added unit test for 'format_makefile_Contents'
+        + Formatted unit tests
+    - Updated document 'USAGE.md'
+        + Added documentation for function 'format_makefile_Contents()'
+        + Added usage examples for the Makefile imported data-into-string formatting
+
