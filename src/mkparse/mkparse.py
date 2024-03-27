@@ -385,3 +385,97 @@ class MakefileParser():
 
         return contents
 
+    def trim_contents(self, targets:dict, variables:dict) -> list:
+        """
+        Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+
+        :: Params
+        - targets: Pass the new targets list you wish to export
+            + Type: Dictionary
+            - Format
+                {
+                    "target-name" : {
+                        "dependencies" : [your, dependencies, here],
+                        "statements" : [your, statements, here]
+                    }
+                }
+            - Key-Value Explanation
+                - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                    - Key-Value Mappings
+                        - dependencies : Specify a list of all dependencies 
+                            - Notes: 
+                                - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                    - i.e.
+                                        [target-name]: [dependencies ...]
+                        - statements : Specify a list of all rows of statements to write under the target
+        - variables : Pass the new variables list you wish to export
+            + Type: Dictionary 
+            - Format
+                {
+                    "variable-name" : {
+                        "operator" : "operator (i.e. =|?=|:=)",
+                        "value" : [your, values, here]
+                    }
+                }
+            - Key-Value Explanation
+                - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                    - Key-Value Mappings
+                        - operator : Specify the operator to map the variable to its value string/array/list
+                            + Type: String
+                            - Operator Keyword Types
+                                + '='
+                                + '?='
+                                + ':='
+                        - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                            + Type: List
+        """
+        # Check if target is provided
+        if len(targets) != 0:
+            # Strip all special characters from targets and variables
+            for target_name, target_mappings in targets.items():
+                # Get target dependencies and statements
+                curr_target_dependencies:list = target_mappings["dependencies"]
+                curr_target_statements:list = target_mappings["statements"]
+
+                # Loop through dependencies list
+                for i in range(len(curr_target_dependencies)):
+                    # Get current dependency
+                    curr_dependency = curr_target_dependencies[i]
+
+                    # Strip the current dependency
+                    curr_dependency_stripped = curr_dependency.strip()
+
+                    # Replace values with stripped dependencies
+                    targets[target_name]["dependencies"][i] = curr_dependency_stripped
+
+                # Loop through statements list
+                for i in range(len(curr_target_statements)):
+                    # Get current dependency
+                    curr_statement = curr_target_statements[i]
+
+                    # Strip the current statement
+                    curr_statement_stripped = curr_statement.strip()
+
+                    # Replace values with stripped statements
+                    targets[target_name]["statements"][i] = curr_statement_stripped
+
+        # Check if variables is provided
+        if len(variables) != 0:
+            # Strip all special characters from targets and variables
+            for variable_name, variable_mappings in variables.items():
+                # Get variable key-values
+                curr_variable_values:list = variable_mappings["value"]
+
+                # Loop through variable values list
+                for i in range(len(curr_variable_values)):
+                    # Get current value
+                    curr_value = curr_variable_values[i]
+
+                    # Strip the current dependency
+                    curr_value_stripped = curr_value.strip()
+
+                    # Replace values with stripped values
+                    variables[variable_name]["value"][i] = curr_value_stripped
+
+        return [targets, variables]
+
