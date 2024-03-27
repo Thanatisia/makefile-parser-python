@@ -4,6 +4,7 @@
 + [2024-03-23](#2024-03-23)
 + [2024-03-24](#2024-03-24)
 + [2024-03-25](#2024-03-25)
++ [2024-03-27](#2024-03-27)
 
 ## Entry Logs
 ### 2024-03-23
@@ -177,4 +178,27 @@
     - Updated document 'USAGE.md'
         + Added documentation for function 'format_makefile_Contents()'
         + Added usage examples for the Makefile imported data-into-string formatting
+
+### 2024-03-27
++ Version: v0.4.1
+
+- Version Changes
+    - mkparse
+        + Added new function 'trim_contents(...)': Function to Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.1
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.1
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        + Added new function 'trim_contents(...)': Function to Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Performed some cleanup
+        + Added unit test for 'trim_contents'
+        + Formatted unit tests
+    - Updated document 'USAGE.md'
+        + Added documentation for function 'trim_contents'
+        + Fixed documentation for function 'format_makefile_Contents'
+        + Added usage examples for function 'trim_contents'
 
