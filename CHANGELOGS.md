@@ -287,3 +287,11 @@
         - Function 'parse_makefile()'
             + Refactored delimiter check
 
+#### 2205H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'parse_makefile()'
+            - Fixing import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+                + Modified positioning and performed cleanup
+                + Set operator directly in the operator index checker to obtain the specific various separator ('=', ':=', '?=')
+

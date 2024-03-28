@@ -139,17 +139,16 @@ class MakefileParser():
                                 # Check variable name for special characters (=, :=, ?=)
                                 operator_checklist = ["=", ":=", "?="]
                                 operator_idx = -1
+                                operator = "="
                                 for tmp in operator_checklist:
                                     # Obtain position index
                                     tmp_pos_idx = variable_name.find(tmp)
                                     if tmp_pos_idx > -1:
                                         operator_idx = tmp_pos_idx
+                                        operator = tmp
 
                                 # Obtain Operator
                                 if operator_idx > -1:
-                                    operator = variable_name[operator_idx]
-                                    print("Operator Index: {}".format(operator_idx))
-
                                     # Split parts according to the newly-discovered operator
                                     parts = line.split(operator)
 
@@ -167,11 +166,6 @@ class MakefileParser():
                                     if len(parts) >= 3:
                                         # Obtain variable value
                                         variable_value = parts[2:]
-
-                                print("Parts: {}".format(parts))
-                                print("\tVariable Name: {}".format(variable_name))
-                                print("\tOperator: {}".format(operator))
-                                print("\tVariable Value: {}".format(variable_value))
 
                                 # Map the variable value to the variable name in the entry mapping
                                 variables[variable_name] = {'operator': operator, 'value': variable_value}
