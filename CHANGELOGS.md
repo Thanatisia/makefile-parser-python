@@ -263,3 +263,12 @@
     - Updated Python packaging script 'setup.py' for setuptools
         + Updated version number to 0.4.3
 
+#### 1942H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Fixing import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+            - i.e.
+                ```makefile
+                variable=value
+                ```
+
