@@ -272,3 +272,12 @@
                 variable=value
                 ```
 
+#### 2043H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Fixing import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+            + Added additional layer of validation if a variable has no spaces by the delimiter (i.e. 'variable_name=value' instead of 'variable_name = value')
+            - Added checks for the keywords ':=', '?=' and ':'
+                - Check the variable name (index 1) for the occurence of any of the above keywords
+                    + Resize and replace lists if delimiter is obtained
+

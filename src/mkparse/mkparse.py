@@ -116,7 +116,7 @@ class MakefileParser():
 
                     # Check if line contains a '=' (defines a variable)
                     elif '=' in line:
-                        # Check if line contains spaces 
+                        # Check if line contains spaces
                         has_space = False
                         for char in line:
                             if char == ' ':
@@ -128,23 +128,44 @@ class MakefileParser():
                             # Split the '=' to a LHS and RHS
                             parts = line.split(' ')
 
-                            print("Parts: {}".format(parts))
-
                             # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
                             if len(parts) >= 2:
                                 # Strip the newline off the first element which is the variable name
                                 variable_name = parts[0].strip()
 
-                                # Obtain Operator
-                                operator = parts[1]
+                                # Check variable name for special characters (=, :=, ?=)
+                                operator_idx = -1
+                                if variable_name.find("=") > -1:
+                                    operator_idx = variable_name.find("=")
+                                elif variable_name.find(":=") > -1:
+                                    operator_idx = variable_name.find(":=")
+                                elif variable_name.find("?=") > -1:
+                                    operator_idx = variable_name.find("?=")
 
                                 # Set empty value
                                 variable_value = []
 
-                                # Check if variable value is provided
-                                if len(parts) >= 3:
-                                    # Obtain variable value
-                                    variable_value = parts[2:]
+                                # Obtain Operator
+                                if operator_idx > -1:
+                                    operator = variable_name[operator_idx]
+
+                                    # Split parts according to the newly-discovered operator
+                                    parts = line.split(operator)
+
+                                    # variable_name = variable_name[:operator_idx]
+                                    variable_name = parts[0].strip()
+
+                                    # Check if variable value is provided
+                                    if len(parts) >= 2:
+                                        # Obtain variable value by splitting the string into a list
+                                        variable_value = parts[1].split(' ')
+                                else:
+                                    operator = parts[1]
+
+                                    # Check if variable value is provided
+                                    if len(parts) >= 3:
+                                        # Obtain variable value
+                                        variable_value = parts[2:]
 
                                 # Map the variable value to the variable name in the entry mapping
                                 variables[variable_name] = {'operator': operator, 'value': variable_value}
