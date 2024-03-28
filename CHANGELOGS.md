@@ -240,3 +240,9 @@
     - Updated document 'USAGE.md'
         + Updated document with new usage examples and updated parameter explanations
 
+#### 1411H
+- Updates
+    - Updated document 'USAGE.md'
+        - Updated '.trim_contents'
+            + Added dynamic return values
+

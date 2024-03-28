@@ -214,10 +214,19 @@ Information regarding the various ways to use this Makefile parser
                             - value : Specify the value string/array/list (as a list) that you want to map to the variable
                                 + Type: List
         - Return: 
-            + Type: List
-            - Values
-                + targets   : Trimmed Makefile rules/targets + dependencies
-                + variables : Trimmed Makefile variables/build arguments
+            - Default: If both 'targets' and 'variables' are specified
+                + Type: List
+                - Values
+                    + targets   : Trimmed Makefile rules/targets + dependencies
+                    + variables : Trimmed Makefile variables/build arguments
+            - If only 'variables' is specified
+                + Type: Dictionary
+                - Values
+                    + variables : Trimmed Makefile variables/build arguments
+            - If only 'targets' is specified
+                + Type: Dictionary
+                - Values
+                    + targets   : Trimmed Makefile rules/targets + dependencies
 
 ### Data Classes/Types
 
