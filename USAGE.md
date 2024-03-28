@@ -109,10 +109,11 @@ Information regarding the various ways to use this Makefile parser
                         # Instructions/statements
                     ```
 
-    - `.format_makefile_Contents(targets:dict, variables:dict)`: Format provided makefile targets and variables into content strings
+    - `.format_makefile_Contents(targets=None, variables=None)`: Format provided makefile targets and variables into content strings
         - Parameter/Argument Signature
-            - targets: Specify the Makefile targets to format
+            - targets: Specify the Makefile targets to format; Optional
                 + Type: Dictionary
+                + Default: None
                 - Format
                     {
                         "target-name" : {
@@ -129,8 +130,9 @@ Information regarding the various ways to use this Makefile parser
                                         - i.e.
                                             [target-name]: [dependencies ...]
                             - statements : Specify a list of all rows of statements to write under the target
-            - variables: Specify the Makefile variables to format
+            - variables: Specify the Makefile variables to format; Optional
                 + Type: Dictionary
+                + Default: None
                 - Format
                     {
                         "variable-name" : {
@@ -165,10 +167,11 @@ Information regarding the various ways to use this Makefile parser
                         "variables" : []
                     }
                     ```
-    - `.trim_contents(self, targets:dict, variables:dict)` : Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+    - `.trim_contents(targets=None, variables=None)` : Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
         - Parameter/Argument Signature
-            - targets: Pass the target dictionary mappings you wish to trim/strip
+            - targets: Pass the target dictionary mappings you wish to trim/strip; Optional
                 + Type: Dictionary
+                + Default: None
                 - Format
                     ```python
                     {
@@ -187,8 +190,9 @@ Information regarding the various ways to use this Makefile parser
                                         - i.e.
                                             [target-name]: [dependencies ...]
                             - statements : Specify a list of all rows of statements to write under the target
-            - variables : Pass the target variables mappings you wish to trim/strip
+            - variables : Pass the target variables mappings you wish to trim/strip; Optional
                 + Type: Dictionary 
+                + Default: None
                 - Format
                     ```python
                     {
@@ -210,10 +214,19 @@ Information regarding the various ways to use this Makefile parser
                             - value : Specify the value string/array/list (as a list) that you want to map to the variable
                                 + Type: List
         - Return: 
-            + Type: List
-            - Values
-                + targets   : Trimmed Makefile rules/targets + dependencies
-                + variables : Trimmed Makefile variables/build arguments
+            - Default: If both 'targets' and 'variables' are specified
+                + Type: List
+                - Values
+                    + targets   : Trimmed Makefile rules/targets + dependencies
+                    + variables : Trimmed Makefile variables/build arguments
+            - If only 'variables' is specified
+                + Type: Dictionary
+                - Values
+                    + variables : Trimmed Makefile variables/build arguments
+            - If only 'targets' is specified
+                + Type: Dictionary
+                - Values
+                    + targets   : Trimmed Makefile rules/targets + dependencies
 
 ### Data Classes/Types
 
@@ -276,19 +289,47 @@ Information regarding the various ways to use this Makefile parser
 
 - Process imported Makefile contents
     - Trim imported Makefile contents
-        ```python
-        # Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
-        targets, variables = makefile_parser.trim_contents(targets, variables)
-        ```
+        - Trim both targets and variables
+            ```python
+            # Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+            targets, variables = makefile_parser.trim_contents(targets, variables)
+            ```
+        - Trim 'targets' dictionary only
+            ```python
+            # Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+            targets = makefile_parser.trim_contents(targets=targets)
+            ```
+        - Trim 'variables' dictionary only
+            ```python
+            # Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+            variables = makefile_parser.trim_contents(variables=variables)
+            ```
     - Format Makefile contents into string
-        ```python
-        # Format Makefile output into formatted string
-        formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets, variables)
+        - Format both 'targets' and 'variables' dictionary
+            ```python
+            # Format Makefile output into formatted string
+            formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets, variables)
 
-        # Process imported Makefile contents
-        formatted_makefile_Targets = formatted_makefile_Contents["targets"]
-        formatted_makefile_Variables = formatted_makefile_Contents["variables"]
-        ```
+            # Process imported Makefile contents
+            formatted_makefile_Targets = formatted_makefile_Contents["targets"]
+            formatted_makefile_Variables = formatted_makefile_Contents["variables"]
+            ```
+        - Format 'targets' dictionary only
+            ```python
+            # Format Makefile output into formatted string
+            formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets=targets)
+
+            # Process imported Makefile contents
+            formatted_makefile_Targets = formatted_makefile_Contents["targets"]
+            ```
+        - Format 'variables' dictionary only
+            ```python
+            # Format Makefile output into formatted string
+            formatted_makefile_Contents = makefile_parser.format_makefile_Contents(variables=variables)
+
+            # Process imported Makefile contents
+            formatted_makefile_Targets = formatted_makefile_Contents["variables"]
+            ```
 
 - Use processed data
     ```python

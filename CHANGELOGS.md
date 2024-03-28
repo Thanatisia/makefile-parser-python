@@ -224,3 +224,42 @@
         + Added unit test for testing the function 'format_makefile_Contents()': Passing only the Makefile 'targets' dictionary
         + Added unit test for testing the function 'format_makefile_Contents()': Passing only the Makefile 'variables' dictionary
 
+#### 1342H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'trim_contents()'
+            + Attempting to modify function to return results depending on input for dynamic usability
+
+#### 1353H
+- Updates
+    - Updated unit test source file 'unittest.py' in 'tests/'
+        + Added unit test for testing the function 'trim_contents()': Attempting to modify function to return results depending on input for dynamic usability
+
+#### 1401H
+- Updates
+    - Updated document 'USAGE.md'
+        + Updated document with new usage examples and updated parameter explanations
+
+#### 1411H
+- Updates
+    - Updated document 'USAGE.md'
+        - Updated '.trim_contents'
+            + Added dynamic return values
+
+#### 1457H
++ Version: v0.4.3
+
+- Version Changes
+    - mkparse
+        - Function '.format_makefile_Contents()'
+            + 'targets' and 'variables' dictionary are now optional inputs
+        - Function '.trim_contents()'
+            + 'targets' and 'variables' dictionary are now optional inputs
+            + Function returns results depending on input for dynamic usability
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.3
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.3
+
