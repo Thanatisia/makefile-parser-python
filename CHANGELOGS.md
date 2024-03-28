@@ -281,3 +281,9 @@
                 - Check the variable name (index 1) for the occurence of any of the above keywords
                     + Resize and replace lists if delimiter is obtained
 
+#### 2159H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'parse_makefile()'
+            + Refactored delimiter check
+
