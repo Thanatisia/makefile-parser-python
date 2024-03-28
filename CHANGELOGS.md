@@ -235,3 +235,8 @@
     - Updated unit test source file 'unittest.py' in 'tests/'
         + Added unit test for testing the function 'trim_contents()': Attempting to modify function to return results depending on input for dynamic usability
 
+#### 1401H
+- Updates
+    - Updated document 'USAGE.md'
+        + Updated document with new usage examples and updated parameter explanations
+
