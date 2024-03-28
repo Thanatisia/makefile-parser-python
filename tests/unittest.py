@@ -33,6 +33,9 @@ def test_export_Makefile(targets, variables, makefile_name="Makefile", makefile_
     # Output processed data
 
 def test_format_Makefile(targets, variables, makefile_name="Makefile", makefile_path=".") -> list:
+    """
+    Testing 'format_makefile_Contents()' for both targets and variables
+    """
     # Initialize Variables
     makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
@@ -47,6 +50,42 @@ def test_format_Makefile(targets, variables, makefile_name="Makefile", makefile_
 
     # Output processed data
     return [formatted_makefile_Targets, formatted_makefile_Variables]
+
+def test_format_Makefile_target(targets, makefile_name="Makefile", makefile_path=".") -> list:
+    """
+    Testing 'format_makefile_Contents()' only for the target
+    """
+    # Initialize Variables
+    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
+
+    # Format Makefile output into formatted string
+    formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets=targets)
+
+    # Process imported Makefile contents
+    formatted_makefile_Targets = formatted_makefile_Contents["targets"]
+
+    # Use processed data
+
+    # Output processed data
+    return formatted_makefile_Targets
+
+def test_format_Makefile_variables(variables, makefile_name="Makefile", makefile_path=".") -> list:
+    """
+    Testing 'format_makefile_Contents()' only for the variables
+    """
+    # Initialize Variables
+    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
+
+    # Format Makefile output into formatted string
+    formatted_makefile_Contents = makefile_parser.format_makefile_Contents(variables=variables)
+
+    # Process imported Makefile contents
+    formatted_makefile_Variables = formatted_makefile_Contents["variables"]
+
+    # Use processed data
+
+    # Output processed data
+    return formatted_makefile_Variables
 
 def test_trim_makefile_Contents(targets, variables, makefile_name="Makefile", makefile_path=".") -> list:
     """
@@ -114,6 +153,36 @@ def main():
     for i in range(len(formatted_makefile_Targets)):
         # Get current line
         curr_line = formatted_makefile_Targets[i]
+        # Print
+        print(curr_line)
+
+    print("")
+
+    # Testing 'format_makefile_Contents()' only for the target
+    print("Testing 'format_makefile_Contents()' only for the target...")
+    formatted_makefile_Targets = test_format_Makefile_target(targets, makefile_name, makefile_path)
+
+    print("=======")
+    print("Targets")
+    print("=======")
+    for i in range(len(formatted_makefile_Targets)):
+        # Get current line
+        curr_line = formatted_makefile_Targets[i]
+        # Print
+        print(curr_line)
+
+    print("")
+
+    # Testing 'format_makefile_Contents()' only for the variables
+    print("Testing 'format_makefile_Contents()' only for the variables...")
+    formatted_makefile_Variables = test_format_Makefile_variables(variables, makefile_name, makefile_path)
+
+    print("=========")
+    print("Variables")
+    print("=========")
+    for i in range(len(formatted_makefile_Variables)):
+        # Get current line
+        curr_line = formatted_makefile_Variables[i]
         # Print
         print(curr_line)
 
