@@ -111,6 +111,52 @@ def test_trim_makefile_Contents(targets, variables, makefile_name="Makefile", ma
     # Output processed data
     return [formatted_trimmed_Targets, formatted_trimmed_Variables]
 
+def test_trim_makefile_Targets(targets, makefile_name="Makefile", makefile_path=".") -> list:
+    """
+    Test trim function 'trim_makefile_contents()' for targets only
+
+    Goal: Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+    """
+    # Initialize Variables
+    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
+
+    # Format Makefile output into formatted string
+    trimmed_targets = makefile_parser.trim_contents(targets=targets)
+
+    # Process imported Makefile contents
+    formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets=trimmed_targets)
+
+    # Process imported Makefile contents
+    formatted_trimmed_Targets = formatted_makefile_Contents["targets"]
+
+    # Use processed data
+
+    # Output processed data
+    return formatted_trimmed_Targets
+
+def test_trim_makefile_Variables(variables, makefile_name="Makefile", makefile_path=".") -> list:
+    """
+    Test trim function 'trim_makefile_contents()' for targets only
+
+    Goal: Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
+    """
+    # Initialize Variables
+    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
+
+    # Format Makefile output into formatted string
+    trimmed_variables = makefile_parser.trim_contents(variables=variables)
+
+    # Process imported Makefile contents
+    formatted_makefile_Contents = makefile_parser.format_makefile_Contents(variables=trimmed_variables)
+
+    # Process imported Makefile contents
+    formatted_trimmed_Variables = formatted_makefile_Contents["variables"]
+
+    # Use processed data
+
+    # Output processed data
+    return formatted_trimmed_Variables
+
 def main():
     """
     Unit Test launcher
@@ -198,7 +244,13 @@ def main():
 
     print("")
 
-    # Test Makefile trim contents
+    # Resetting
+    print("Resetting...")
+    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
+
+    print("")
+
+    # Test Makefile trim contents for targets and variables
     print("Testing Makefile content trim...")
     trimmed_makefile_Targets, trimmed_makefile_Variables = test_trim_makefile_Contents(targets, variables, makefile_name, makefile_path)
     print("=========")
@@ -222,6 +274,43 @@ def main():
         print(curr_line)
 
     print("")
+
+    # Resetting
+    print("Resetting...")
+    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
+
+    # Test Makefile trim contents for targets only
+    print("Testing Makefile content trim for Targets only...")
+    trimmed_makefile_Targets = test_trim_makefile_Targets(targets, makefile_name, makefile_path)
+
+    print("=======")
+    print("Targets")
+    print("=======")
+    for i in range(len(trimmed_makefile_Targets)):
+        # Get current line
+        curr_line = trimmed_makefile_Targets[i]
+        # Print
+        print(curr_line)
+
+    print("")
+
+    # Resetting
+    print("Resetting...")
+    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
+
+    print("")
+
+    # Test Makefile trim contents for variables only
+    print("Testing Makefile content trim for Variables only...")
+    trimmed_makefile_Variables = test_trim_makefile_Variables(variables, makefile_name, makefile_path)
+    print("=========")
+    print("Variables")
+    print("=========")
+    for i in range(len(trimmed_makefile_Variables)):
+        # Get current line
+        curr_line = trimmed_makefile_Variables[i]
+        # Print
+        print(curr_line)
 
 if __name__ == "__main__":
     main()
