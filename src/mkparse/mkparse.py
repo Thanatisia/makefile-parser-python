@@ -305,13 +305,14 @@ class MakefileParser():
 
         return error_msg
 
-    def format_makefile_Contents(self, targets:dict, variables:dict) -> dict:
+    def format_makefile_Contents(self, targets=None, variables=None) -> dict:
         """
         Format provided makefile targets and variables into content strings
 
         :: Params
         - targets: Specify the Makefile targets to format
             + Type: Dictionary
+            + Default: None
             - Format
                 {
                     "target-name" : {
@@ -330,6 +331,7 @@ class MakefileParser():
                         - statements : Specify a list of all rows of statements to write under the target
         - variables: Specify the Makefile variables to format
             + Type: Dictionary
+            + Default: None
             - Format
                 {
                     "variable-name" : {
@@ -361,27 +363,31 @@ class MakefileParser():
         # Initialize Variables
         contents = {"targets" : [], "variables" : []}
 
-        for var_name, var_values in variables.items():
-            # Get variable operator
-            curr_var_operator = var_values["operator"]
+        # Check if variables is empty
+        if variables != None:
+            for var_name, var_values in variables.items():
+                # Get variable operator
+                curr_var_operator = var_values["operator"]
 
-            # Get variable value
-            curr_var_value = ' '.join(var_values["value"])
+                # Get variable value
+                curr_var_value = ' '.join(var_values["value"])
 
-            # Format current variable
-            curr_out_string = "{} {} {}".format(var_name, curr_var_operator, curr_var_value)
-            contents["variables"].append(curr_out_string)
+                # Format current variable
+                curr_out_string = "{} {} {}".format(var_name, curr_var_operator, curr_var_value)
+                contents["variables"].append(curr_out_string)
 
-        for target_name, target_settings in targets.items():
-            # Get current target dependencies
-            curr_target_dependencies = ' '.join(target_settings["dependencies"])
+        # Check if targets is empty
+        if targets != None:
+            for target_name, target_settings in targets.items():
+                # Get current target dependencies
+                curr_target_dependencies = ' '.join(target_settings["dependencies"])
 
-            # Get current target statements
-            curr_target_statements = '\n'.join(target_settings["statements"])
+                # Get current target statements
+                curr_target_statements = '\n'.join(target_settings["statements"])
 
-            # Format current variable
-            curr_out_string = "{}: {}\n{}\n".format(target_name, curr_target_dependencies, curr_target_statements)
-            contents["targets"].append(curr_out_string)
+                # Format current variable
+                curr_out_string = "{}: {}\n{}\n".format(target_name, curr_target_dependencies, curr_target_statements)
+                contents["targets"].append(curr_out_string)
 
         return contents
 

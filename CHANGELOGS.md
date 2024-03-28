@@ -5,6 +5,7 @@
 + [2024-03-24](#2024-03-24)
 + [2024-03-25](#2024-03-25)
 + [2024-03-27](#2024-03-27)
++ [2024-03-28](#2024-03-28)
 
 ## Entry Logs
 ### 2024-03-23
@@ -201,4 +202,25 @@
         + Added documentation for function 'trim_contents'
         + Fixed documentation for function 'format_makefile_Contents'
         + Added usage examples for function 'trim_contents'
+
+### 2024-03-28
+#### 1123H
++ Version: v0.4.2
+
+- Version Changes
+    - mkparse
+        - Function 'format_makefile_Contents()'
+            + Updated to set default value 'None' to parameter/arguments so that developer/user can choose to format either the targets, variables or both
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.2
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.2
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'format_makefile_Contents()'
+            + Updated to set default value 'None' to parameter/arguments so that developer/user can choose to format either the targets, variables or both
+    - Updated unit test source file 'unittest.py' in 'tests/'
+        + Added unit test for testing the function 'format_makefile_Contents()': Passing only the Makefile 'targets' dictionary
+        + Added unit test for testing the function 'format_makefile_Contents()': Passing only the Makefile 'variables' dictionary
 
