@@ -246,3 +246,20 @@
         - Updated '.trim_contents'
             + Added dynamic return values
 
+#### 1457H
++ Version: v0.4.3
+
+- Version Changes
+    - mkparse
+        - Function '.format_makefile_Contents()'
+            + 'targets' and 'variables' dictionary are now optional inputs
+        - Function '.trim_contents()'
+            + 'targets' and 'variables' dictionary are now optional inputs
+            + Function returns results depending on input for dynamic usability
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.3
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.3
+
