@@ -224,3 +224,9 @@
         + Added unit test for testing the function 'format_makefile_Contents()': Passing only the Makefile 'targets' dictionary
         + Added unit test for testing the function 'format_makefile_Contents()': Passing only the Makefile 'variables' dictionary
 
+#### 1342H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'trim_contents()'
+            + Attempting to modify function to return results depending on input for dynamic usability
+

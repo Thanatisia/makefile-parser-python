@@ -391,7 +391,7 @@ class MakefileParser():
 
         return contents
 
-    def trim_contents(self, targets:dict, variables:dict) -> list:
+    def trim_contents(self, targets=None, variables=None) -> list:
         """
         Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
 
@@ -435,8 +435,10 @@ class MakefileParser():
                         - value : Specify the value string/array/list (as a list) that you want to map to the variable
                             + Type: List
         """
+        # Initialize Variables
+
         # Check if target is provided
-        if len(targets) != 0:
+        if targets != None:
             # Strip all special characters from targets and variables
             for target_name, target_mappings in targets.items():
                 # Get target dependencies and statements
@@ -466,7 +468,7 @@ class MakefileParser():
                     targets[target_name]["statements"][i] = curr_statement_stripped
 
         # Check if variables is provided
-        if len(variables) != 0:
+        if variables != None:
             # Strip all special characters from targets and variables
             for variable_name, variable_mappings in variables.items():
                 # Get variable key-values
@@ -483,5 +485,13 @@ class MakefileParser():
                     # Replace values with stripped values
                     variables[variable_name]["value"][i] = curr_value_stripped
 
-        return [targets, variables]
+        # Check if results is found
+        if (targets != None) and (variables != None):
+            return [targets, variables]
+        elif (targets != None):
+            return targets
+        elif (variables != None):
+            return variables
+        else:
+            return []
 
