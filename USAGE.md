@@ -24,6 +24,63 @@ Information regarding the various ways to use this Makefile parser
 
 ### Functions
 - MakefileParser
+    - `.ast_parse(makefile_string_contents=None)`: Makefile parser core unit
+        - Parameter/Argument Signatures
+            - makefile_string_contents : Specify the Makefile content body (after splitting by newline) you wish to import and parse into the memory buffer
+                + Type: String|List
+                + Default: ""
+
+        - Return
+            + Type: List
+            - Values
+                - targets: Contains the targets/instructions/rules and the attached dependencies and statements
+                    + Type: Dictionary
+                    - Format
+                        {
+                            "target-name" : {
+                                "dependencies" : [your, dependencies, here],
+                                "statements" : [your, statements, here]
+                            }
+                        }
+                    - Key-Value Explanation
+                        - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                            - Key-Value Mappings
+                                - dependencies : Specify a list of all dependencies 
+                                    - Notes: 
+                                        - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                            - i.e.
+                                                [target-name]: [dependencies ...]
+                                - statements : Specify a list of all rows of statements to write under the target
+                - variables : Contains the variables and the attached operator (delimiter) and value
+                    + Type: Dictionary 
+                    - Format
+                        {
+                            "variable-name" : {
+                                "operator" : "operator (i.e. =|?=|:=)",
+                                "value" : [your, values, here]
+                            }
+                        }
+                    - Key-Value Explanation
+                        - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                            - Key-Value Mappings
+                                - operator : Specify the operator to map the variable to its value string/array/list
+                                    + Type: String
+                                    - Operator Keyword Types
+                                        + '='
+                                        + '?='
+                                        + ':='
+                                - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                                    + Type: List
+                - comments : Pass the updated global comments list you wish to export (NOTE: Currently unused; for future development plans)
+                    + Type: Dictionary 
+                    - Format
+                        {
+                            "line-number" : comment-from-that-line
+                        }
+                    - Key-Value Explanation
+                        - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                            - Key-Value Mappings
+                                - line-number: The line number; this is mapped to the comment stored at that line
     - `.parse_makefile(makefile_name="Makefile", makefile_path=".")` : Parse the specified Makefile into python dictionary data objects
         - Parameter/Argument Signatures
             - makefile_name : Specify the file name of the target Makefile

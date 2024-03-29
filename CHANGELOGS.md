@@ -392,3 +392,11 @@
     - Updated unit test file 'unittest.py' in 'tests/'
         + Added unit test for parsing a template Makefile string into system, exporting it for comparison, then pretty printing the containers into standard output
 
+#### 0026H
+- Updates
+    - Updated document 'USAGE.md'
+        + Added documentation for new function 'ast_parse()'
+    - Updated source file 'mkparse.py' in 'src/mkparse' 
+        + Added new function `ast_parse(self, makefile_string_contents=None)`: The Makefile parser core unit; the parsing will go through this
+        + Migrated the parsing functionality of 'parse_makefile_string()' to 'ast_parse()'
+
