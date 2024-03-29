@@ -332,3 +332,29 @@
             + Fixed the no lines issues
             + Refactored variable positioning 
 
+#### 1118H
++ Version: v0.4.5
+
+- Version Changes
+    - mkparse
+        - Function 'parse_makefile()'
+            - Fixed import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+                + Added additional layer of validation if a variable has no spaces by the delimiter (i.e. 'variable_name=value' instead of 'variable_name = value')
+                - Added checks for the keywords ':=', '?=' and ':'
+                    - Check the variable name (index 1) for the occurence of any of the above keywords
+                        + Resize and replace lists if delimiter is obtained
+
+- New
+    + Added new document 'CONTRIBUTING.md' : Documenting contribution steps
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.5
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.5
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        + Performed cleanup
+        - Function 'parse_makefile()'
+            + Fixed the no lines issues
+            + Refactored variable positioning 
+

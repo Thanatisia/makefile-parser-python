@@ -169,16 +169,10 @@ class MakefileParser():
                                         # Obtain variable value
                                         variable_value = parts[2:]
 
-                                print("Parts: {}".format(parts))
-                                print("\tVariable Name: {}".format(variable_name))
-                                print("\tOperator: {}".format(operator))
-                                print("\tVariable Values: {}".format(variable_value))
-
                                 # Map the variable value to the variable name in the entry mapping
                                 variables[variable_name] = {'operator': operator, 'value': variable_value}
                         else:
                             # Line does not contain spaces, carry over
-                            print("Line does not contain spaces")
 
                             # Initialize Variables
                             variable_value = []
@@ -202,11 +196,6 @@ class MakefileParser():
 
                             # Obtain variable value
                             variable_value = parts[1:]
-
-                            print("Parts: {}".format(parts))
-                            print("\tVariable Name: {}".format(variable_name))
-                            print("\tOperator: {}".format(operator))
-                            print("\tVariable Values: {}".format(variable_value))
 
                             # Map the variable value to the variable name in the entry mapping
                             variables[variable_name] = {'operator': operator, 'value': variable_value}
