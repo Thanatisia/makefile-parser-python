@@ -6,6 +6,7 @@
 + [2024-03-25](#2024-03-25)
 + [2024-03-27](#2024-03-27)
 + [2024-03-28](#2024-03-28)
++ [2024-03-29](#2024-03-29)
 
 ## Entry Logs
 ### 2024-03-23
@@ -262,4 +263,62 @@
         + Updated version number to 0.4.3
     - Updated Python packaging script 'setup.py' for setuptools
         + Updated version number to 0.4.3
+
+#### 1942H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Fixing import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+            - i.e.
+                ```makefile
+                variable=value
+                ```
+
+#### 2043H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Fixing import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+            + Added additional layer of validation if a variable has no spaces by the delimiter (i.e. 'variable_name=value' instead of 'variable_name = value')
+            - Added checks for the keywords ':=', '?=' and ':'
+                - Check the variable name (index 1) for the occurence of any of the above keywords
+                    + Resize and replace lists if delimiter is obtained
+
+#### 2159H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'parse_makefile()'
+            + Refactored delimiter check
+
+#### 2205H
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'parse_makefile()'
+            - Fixing import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+                + Modified positioning and performed cleanup
+                + Set operator directly in the operator index checker to obtain the specific various separator ('=', ':=', '?=')
+
+### 2024-03-29
+#### 1007H
++ Version: v0.4.4
+
+- Version Changes
+    - mkparse
+        - Function 'parse_makefile()'
+            - Fixed import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+                + Added additional layer of validation if a variable has no spaces by the delimiter (i.e. 'variable_name=value' instead of 'variable_name = value')
+                - Added checks for the keywords ':=', '?=' and ':'
+                    - Check the variable name (index 1) for the occurence of any of the above keywords
+                        + Resize and replace lists if delimiter is obtained
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.4.
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.4
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'parse_makefile()'
+            - Fixed import bug whereby 'parse_makefile()' is unable to store variable lines without spaces
+                + Added additional layer of validation if a variable has no spaces by the delimiter (i.e. 'variable_name=value' instead of 'variable_name = value')
+                - Added checks for the keywords ':=', '?=' and ':'
+                    - Check the variable name (index 1) for the occurence of any of the above keywords
+                        + Resize and replace lists if delimiter is obtained
 
