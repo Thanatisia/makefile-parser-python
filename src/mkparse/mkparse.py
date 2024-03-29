@@ -187,8 +187,8 @@ class MakefileParser():
                                     operator_idx = tmp_pos_idx
                                     operator = tmp
 
-                            # Split the '=' to a LHS and RHS
-                            parts = line.split(operator)
+                            # Split the first occurence delimiter to a LHS and RHS
+                            parts = line.split(operator, 1)
 
                             # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
                             # Strip the newline off the first element which is the variable name
