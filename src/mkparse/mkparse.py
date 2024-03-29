@@ -85,6 +85,7 @@ class MakefileParser():
         curr_target_name = ""
         line_number = 0
         comments = {} # Store comments here; map line number to the comment
+        operator_checklist = ["=", ":=", "?="]
 
         # Process and perform data validation + sanitization
         
@@ -125,6 +126,10 @@ class MakefileParser():
 
                         # Line contains space
                         if has_space:
+                            # Initialize Variables
+                            operator_idx = -1
+                            operator = "="
+
                             # Split the '=' to a LHS and RHS
                             parts = line.split(' ')
 
@@ -137,9 +142,6 @@ class MakefileParser():
                                 variable_name = parts[0].strip()
 
                                 # Check variable name for special characters (=, :=, ?=)
-                                operator_checklist = ["=", ":=", "?="]
-                                operator_idx = -1
-                                operator = "="
                                 for tmp in operator_checklist:
                                     # Obtain position index
                                     tmp_pos_idx = variable_name.find(tmp)
@@ -167,38 +169,47 @@ class MakefileParser():
                                         # Obtain variable value
                                         variable_value = parts[2:]
 
+                                print("Parts: {}".format(parts))
+                                print("\tVariable Name: {}".format(variable_name))
+                                print("\tOperator: {}".format(operator))
+                                print("\tVariable Values: {}".format(variable_value))
+
                                 # Map the variable value to the variable name in the entry mapping
                                 variables[variable_name] = {'operator': operator, 'value': variable_value}
                         else:
                             # Line does not contain spaces, carry over
+                            print("Line does not contain spaces")
 
                             # Initialize Variables
-                            delimiter = ""
                             variable_value = []
+                            operator_idx = -1
+                            operator = "="
 
-                            # Check for special characters
-                            for i in range(len(line)):
-                                # Get current character
-                                curr_char = line[i]
-
-                                # Check if character is a character, digit or special character
-                                if not(curr_char.isalnum()):
-                                    # is not alpha numerical
-                                    delimiter += curr_char
+                            # Check variable name for special characters (=, :=, ?=)
+                            for tmp in operator_checklist:
+                                # Obtain position index
+                                tmp_pos_idx = line.find(tmp)
+                                if tmp_pos_idx > -1:
+                                    operator_idx = tmp_pos_idx
+                                    operator = tmp
 
                             # Split the '=' to a LHS and RHS
-                            parts = line.split(delimiter)
+                            parts = line.split(operator)
 
                             # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
-                            if len(parts) >= 2:
-                                # Strip the newline off the first element which is the variable name
-                                variable_name = parts[0].strip()
+                            # Strip the newline off the first element which is the variable name
+                            variable_name = parts[0].strip()
 
-                                # Obtain variable value
-                                variable_value = parts[1:]
+                            # Obtain variable value
+                            variable_value = parts[1:]
 
-                                # Map the variable value to the variable name in the entry mapping
-                                variables[variable_name] = {'operator': delimiter, 'value': variable_value}
+                            print("Parts: {}".format(parts))
+                            print("\tVariable Name: {}".format(variable_name))
+                            print("\tOperator: {}".format(operator))
+                            print("\tVariable Values: {}".format(variable_value))
+
+                            # Map the variable value to the variable name in the entry mapping
+                            variables[variable_name] = {'operator': operator, 'value': variable_value}
 
                     # Check if line contains ':' (defines a target)
                     elif ':' in line:

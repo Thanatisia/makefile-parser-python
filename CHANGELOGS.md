@@ -322,3 +322,13 @@
                     - Check the variable name (index 1) for the occurence of any of the above keywords
                         + Resize and replace lists if delimiter is obtained
 
+#### 1116H
+- New
+    + Added new document 'CONTRIBUTING.md' : Documenting contribution steps
+
+- Updates
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        - Function 'parse_makefile()'
+            + Fixed the no lines issues
+            + Refactored variable positioning 
+
