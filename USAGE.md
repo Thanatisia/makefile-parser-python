@@ -38,6 +38,17 @@ Information regarding the various ways to use this Makefile parser
                 + targets   : Makefile rules/targets + dependencies
                 + variables : Makefile variables/build arguments
                 + comments  : Makefile comments from the global scope (not tied to any targets); Currently unused
+    - `.parse_makefile_string(makefile_string="")`: Parse a Makefile syntax string into Python dictionary (Key-Value/HashMap) object
+        - Parameter/Argument Signatures
+            - makefile_string : Specify the Makefile content body you wish to import and parse into the memory buffer
+                + Type: String
+                + Default: ""
+        - Return
+            + Type: List
+            - Values
+                + targets   : Makefile rules/targets + dependencies
+                + variables : Makefile variables/build arguments
+                + comments  : Makefile comments from the global scope (not tied to any targets); Currently unused
     - `.export_Makefile(targets:dict, variables:dict, makefile_name="Makefile", makefile_path=".")` : Export the targets and variables list into an output Makefile
         - Parameter/Argument Signatures
             - targets: Pass the new targets list you wish to export
@@ -275,17 +286,29 @@ Information regarding the various ways to use this Makefile parser
         ```
 
 - Import Makefile file contents into python dictionary (key-value mappings; i.e. HashMap/Associative Array)
-    - Notes
-        - If you do not require any of the return objects
-            - You can just replace the output object with '_'
-                - i.e.
-                    ```python
-                    targets, variables, _ = makefile_parser.parse_makefile(makefile_name, makefile_path)
-                    ```
-    ```python
-    # Import Makefile contents into application runtime
-    targets, variables, comments = makefile_parser.parse_makefile(makefile_name, makefile_path)
-    ```
+    - Import from a Makefile file
+        - Notes
+            - If you do not require any of the return objects
+                - You can just replace the output object with '_'
+                    - i.e.
+                        ```python
+                        targets, variables, _ = makefile_parser.parse_makefile(makefile_name, makefile_path)
+                        ```
+        ```python
+        # Import Makefile contents into application runtime
+        targets, variables, comments = makefile_parser.parse_makefile(makefile_name, makefile_path)
+        ```
+    - Import using a Makefile string
+        ```python
+        # Import Makefile string into application runtime
+        makefile_string = """# Makefile
+        variable = value
+
+        target: dependencies
+            # statement
+        """
+        targets, variables, comments = makefile_parser.parse_makefile_string(makefile_string)
+        ```
 
 - Process imported Makefile contents
     - Trim imported Makefile contents

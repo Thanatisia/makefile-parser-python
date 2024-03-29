@@ -7,6 +7,7 @@
 + [2024-03-27](#2024-03-27)
 + [2024-03-28](#2024-03-28)
 + [2024-03-29](#2024-03-29)
++ [2024-03-30](#2024-03-30)
 
 ## Entry Logs
 ### 2024-03-23
@@ -379,4 +380,15 @@
         - Function 'parse_makefile()'
             - Added '1' to the 2nd parameter of '.split(delimiter)' to specify a maximum number of searches of occurences of the specified delimiter
                 + Basically, the goal is to search for only the first occurence of '=', '?=' or ':=', and if found - thats the delimiter
+
+### 2024-03-30
+#### 0013H
+- Updates
+    - Updated document 'USAGE.md'
+        - Added documentation for new function 'parse_makefile_string(self, makefile_string="")'
+            + Added usage examples 
+    - Updated source file 'mkparse.py' in 'src/mkparse' 
+        + Added new function `parse_makefile_string(self, makefile_string="")`: To parse Makefile strings into the system without a file
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Added unit test for parsing a template Makefile string into system, exporting it for comparison, then pretty printing the containers into standard output
 

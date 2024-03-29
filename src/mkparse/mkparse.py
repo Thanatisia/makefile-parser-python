@@ -266,6 +266,254 @@ class MakefileParser():
 
         return [targets, variables, comments]
 
+    def parse_makefile_string(self, makefile_string="") -> list:
+        """
+        Parse a Makefile syntax string into Python dictionary (Key-Value/HashMap) object
+
+        :: Params
+        - makefile_string : Specify the Makefile content body you wish to import and parse into the memory buffer
+            + Type: String
+            + Default: ""
+
+        :: Syntaxes
+        :: =======
+        - Makefile variables Format:
+            ```
+            [variable-name] = [values ...]
+            ```
+     
+        - Makefile target/rules Format:
+            ```
+            [target-name]: [dependencies]
+                # statements...
+            ```
+
+        :: Output
+        - targets: Pass the new targets list you wish to export
+            + Type: Dictionary
+            - Format
+                {
+                    "target-name" : {
+                        "dependencies" : [your, dependencies, here],
+                        "statements" : [your, statements, here]
+                    }
+                }
+            - Key-Value Explanation
+                - target-name : Each entry of 'target-name' contains a Makefile build target/instruction/rule 
+                    - Key-Value Mappings
+                        - dependencies : Specify a list of all dependencies 
+                            - Notes: 
+                                - Dependencies are the pre-requisite rules to execute before executing the mapped target
+                                    - i.e.
+                                        [target-name]: [dependencies ...]
+                        - statements : Specify a list of all rows of statements to write under the target
+        - variables : Pass the new variables list you wish to export
+            + Type: Dictionary 
+            - Format
+                {
+                    "variable-name" : {
+                        "operator" : "operator (i.e. =|?=|:=)",
+                        "value" : [your, values, here]
+                    }
+                }
+            - Key-Value Explanation
+                - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                    - Key-Value Mappings
+                        - operator : Specify the operator to map the variable to its value string/array/list
+                            + Type: String
+                            - Operator Keyword Types
+                                + '='
+                                + '?='
+                                + ':='
+                        - value : Specify the value string/array/list (as a list) that you want to map to the variable
+                            + Type: List
+        - comments : Pass the updated global comments list you wish to export (NOTE: Currently unused; for future development plans)
+            + Type: Dictionary 
+            - Format
+                {
+                    "line-number" : comment-from-that-line
+                }
+            - Key-Value Explanation
+                - variable-name : Each entry of 'variable-name' contains a Makefile variable/ingredient
+                    - Key-Value Mappings
+                        - line-number: The line number; this is mapped to the comment stored at that line
+        """
+        # Initialize Variables
+        targets = {}
+        variables = {}
+        curr_target = None
+        curr_target_name = ""
+        line_number = 0
+        comments = {} # Store comments here; map line number to the comment
+        operator_checklist = ["=", ":=", "?="]
+
+        # Process and perform data validation + sanitization
+        if makefile_string != "":
+            # String is provided
+            # Split makefile_string into a list
+            makefile_string_contents = makefile_string.split("\n")
+            # Iterate through Makefile list and import 
+            for line in makefile_string_contents:
+                # Remove comments
+                # line = line.split('#', 1)[0]
+                line = line.rstrip()
+
+                # Check if line is empty after removing comments
+                if not line:
+                    # Line is empty, continue
+                    continue
+
+                # Check if line contains a '#' (a comment)
+                if line[0] == '#':
+                    # Store all comments
+                    comments[line_number] = line
+
+                # Check if line contains a '=' (defines a variable)
+                elif '=' in line:
+                    # Check if line contains spaces
+                    has_space = False
+                    for char in line:
+                        if char == ' ':
+                            has_space = True
+                            break
+
+                    # Line contains space
+                    if has_space:
+                        # Initialize Variables
+                        operator_idx = -1
+                        operator = "="
+
+                        # Split the '=' to a LHS and RHS
+                        parts = line.split(' ')
+
+                        # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
+                        if len(parts) >= 2:
+                            # Initialize Variables
+                            variable_value = []
+
+                            # Strip the newline off the first element which is the variable name
+                            variable_name = parts[0].strip()
+
+                            # Check variable name for special characters (=, :=, ?=)
+                            for tmp in operator_checklist:
+                                # Obtain position index
+                                tmp_pos_idx = variable_name.find(tmp)
+                                if tmp_pos_idx > -1:
+                                    operator_idx = tmp_pos_idx
+                                    operator = tmp
+
+                            # Obtain Operator
+                            if operator_idx > -1:
+                                # Split parts according to the newly-discovered operator
+                                parts = line.split(operator)
+
+                                # variable_name = variable_name[:operator_idx]
+                                variable_name = parts[0].strip()
+
+                                # Check if variable value is provided
+                                if len(parts) >= 2:
+                                    # Obtain variable value by splitting the string into a list
+                                    variable_value = parts[1].split(' ')
+                            else:
+                                operator = parts[1]
+
+                                # Check if variable value is provided
+                                if len(parts) >= 3:
+                                    # Obtain variable value
+                                    variable_value = parts[2:]
+
+                            # Map the variable value to the variable name in the entry mapping
+                            variables[variable_name] = {'operator': operator, 'value': variable_value}
+                    else:
+                        # Line does not contain spaces, carry over
+
+                        # Initialize Variables
+                        variable_value = []
+                        operator_idx = -1
+                        operator = "="
+
+                        # Check variable name for special characters (=, :=, ?=)
+                        for tmp in operator_checklist:
+                            # Obtain position index
+                            tmp_pos_idx = line.find(tmp)
+                            if tmp_pos_idx > -1:
+                                operator_idx = tmp_pos_idx
+                                operator = tmp
+
+                        # Split the first occurence delimiter to a LHS and RHS
+                        parts = line.split(operator, 1)
+
+                        # Validate/Verify parts list is more than or equals to 2 : Name, Operator and Value, value might be empty
+                        # Strip the newline off the first element which is the variable name
+                        variable_name = parts[0].strip()
+
+                        # Obtain variable value
+                        variable_value = parts[1:]
+
+                        # Map the variable value to the variable name in the entry mapping
+                        variables[variable_name] = {'operator': operator, 'value': variable_value}
+
+                # Check if line contains ':' (defines a target)
+                elif ':' in line:
+                    # Check if line ends with ':' (does not have any dependencies)
+                    if line.endswith(':'):
+                        # Ends with ':' == there are no dependencies, also is definitely a target
+                        curr_target_name = line.split(':')[0].strip()
+
+                        # Initialize a new entry for the current target
+                        targets[curr_target_name] = {"dependencies" : [], "statements" : []}
+                    else:
+                        # Does not end with ':' == there are dependencies
+
+                        # Check if line is really a target and not a statement
+                        if not ('\t' in line):
+                            # This is a target with dependencies
+
+                            # Split line by ':'
+                            curr_target = line.split(':')
+                            curr_target_name = curr_target[0].strip()
+                            curr_target_dependencies = curr_target[1].strip()
+
+                            # Initialize a new entry for the current target
+                            targets[curr_target_name] = {"dependencies" : [], "statements" : []}
+
+                            # Null-value validation
+                            if curr_target_dependencies == "":
+                                curr_target_dependencies = None
+
+                            # Remove newline
+                            # current_target = line[:-1].rstrip()
+
+                            # Check if dependencies are required
+                            if not(curr_target_dependencies == None):
+                                # Are required
+                                # Append dependencies to the current target
+                                targets[curr_target_name]['dependencies'].append(curr_target_dependencies)
+
+                # Not target = statements, append statements to the target
+
+                # Check for empty name
+                if not (curr_target_name == '') :
+                    # There's tab, a target does not have indentations (means that this is a statement)
+
+                    # Store each row of the target's recipe in its own list
+                    targets[curr_target_name]['statements'].append(line.rstrip())
+
+                # Increment Line Number
+                line_number += 1
+
+            for curr_target_name,curr_target_values in targets.items():
+                # Get current target's dependencies
+                curr_target_dependencies = curr_target_values["dependencies"]
+
+                # Get current target's statements
+                curr_target_statements = curr_target_values["statements"]
+
+                # Remove the first line from the list
+                targets[curr_target_name]['statements'] = curr_target_statements[1:]
+
+        return [targets, variables, comments]
+
     def export_Makefile(self, targets:dict, variables:dict, makefile_name="Makefile", makefile_path=".") -> str:
         """
         Export the targets and variables list into an output Makefile
