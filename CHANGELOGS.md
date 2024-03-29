@@ -358,3 +358,25 @@
             + Fixed the no lines issues
             + Refactored variable positioning 
 
+#### 1136H
++ Version: v0.4.6
+
+- Version Changes
+    - mkparse
+        - Function 'parse_makefile()'
+            - Added '1' to the 2nd parameter of '.split(delimiter)' to specify a maximum number of searches of occurences of the specified delimiter
+                + Basically, the goal is to search for only the first occurence of '=', '?=' or ':=', and if found - thats the delimiter
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.4.6
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.4.6
+    - Updated document 'CONTRIBUTING.md'
+        + Added new header block 'Debugging' for Debugging snippets
+    - Updated source file 'mkparse.py' in 'src/mkparse'
+        + Performed cleanup
+        - Function 'parse_makefile()'
+            - Added '1' to the 2nd parameter of '.split(delimiter)' to specify a maximum number of searches of occurences of the specified delimiter
+                + Basically, the goal is to search for only the first occurence of '=', '?=' or ':=', and if found - thats the delimiter
+

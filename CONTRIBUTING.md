@@ -178,6 +178,17 @@ Contributing Steps
     pip uninstall mkparse; pip install .
     ```
 
+*Debugging*
+-----------
+- `parse_makefile()`
+    - Debugging the splitting of 'variables' into parts
+        ```python
+        print("Parts: {}".format(parts))
+        print("\tVariable Name: {}".format(variable_name))
+        print("\tOperator: {}".format(operator))
+        print("\tVariable Values: {}".format(variable_value))
+        ```
+
 ## Resources
 
 ## References
