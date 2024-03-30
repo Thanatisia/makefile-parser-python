@@ -423,8 +423,8 @@
         + Added documentation for new function 'ast_parse()'
         + Updated class entry 'MakefileParser(...)' => 'Parser(...)'
     - Updated source file 'mkparse.py' in 'src/mkparse' 
-        + Added new function `parse_makefile_string(self, makefile_string="")`: To parse Makefile strings into the system without a file
-        + Added new function `ast_parse(self, makefile_string_contents=None)`: The Makefile parser core unit; the parsing will go through this
+        + Added new function 'parse_makefile_string(self, makefile_string="")': To parse Makefile strings into the system without a file
+        + Added new function 'ast_parse(self, makefile_string_contents=None)': The Makefile parser core unit; the parsing will go through this
         + Migrated the parsing functionality of 'parse_makefile_string()' to 'ast_parse()'
         + Renamed class 'MakefileParser' => 'Parser'
     - Updated unit test file 'unittest.py' in 'tests/'
