@@ -3,11 +3,17 @@ Main Runner/Launcher
 """
 import os
 import sys
-from mkparse.mkparse import MakefileParser
+from mkparse.mkparse import Parser
 
-def test_Makefile(makefile_name = "Makefile", makefile_path = ".") -> list:
+def init(makefile_name="Makefile", makefile_path="."):
+    """
+    Initialize Global Variables
+    """
+    global makefile_parser
+    makefile_parser = Parser(makefile_name, makefile_path) # Initialize Makefile Parser
+
+def test_Makefile(makefile_name="Makefile", makefile_path=".") -> list:
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Import Makefile contents into application runtime
     targets, variables, comments = makefile_parser.parse_makefile(makefile_name, makefile_path)
@@ -21,7 +27,6 @@ def test_Makefile(makefile_name = "Makefile", makefile_path = ".") -> list:
 
 def test_import_makefile_String(makefile_string="", makefile_name="Makefile", makefile_path="."):
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Import Makefile content string into application runtime
     targets, variables, comments = makefile_parser.parse_makefile_string(makefile_string)
@@ -35,7 +40,6 @@ def test_import_makefile_String(makefile_string="", makefile_name="Makefile", ma
 
 def test_export_Makefile(targets, variables, makefile_name="Makefile", makefile_path=".") -> None:
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Export Makefile dictionaries to Makefile
     makefile_parser.export_Makefile(targets, variables, makefile_name, makefile_path)
@@ -46,12 +50,11 @@ def test_export_Makefile(targets, variables, makefile_name="Makefile", makefile_
 
     # Output processed data
 
-def test_format_Makefile(targets, variables, makefile_name="Makefile", makefile_path=".") -> list:
+def test_format_Makefile(targets, variables) -> list:
     """
     Testing 'format_makefile_Contents()' for both targets and variables
     """
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Format Makefile output into formatted string
     formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets, variables)
@@ -65,12 +68,11 @@ def test_format_Makefile(targets, variables, makefile_name="Makefile", makefile_
     # Output processed data
     return [formatted_makefile_Targets, formatted_makefile_Variables]
 
-def test_format_Makefile_target(targets, makefile_name="Makefile", makefile_path=".") -> list:
+def test_format_Makefile_target(targets) -> list:
     """
     Testing 'format_makefile_Contents()' only for the target
     """
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Format Makefile output into formatted string
     formatted_makefile_Contents = makefile_parser.format_makefile_Contents(targets=targets)
@@ -83,12 +85,11 @@ def test_format_Makefile_target(targets, makefile_name="Makefile", makefile_path
     # Output processed data
     return formatted_makefile_Targets
 
-def test_format_Makefile_variables(variables, makefile_name="Makefile", makefile_path=".") -> list:
+def test_format_Makefile_variables(variables) -> list:
     """
     Testing 'format_makefile_Contents()' only for the variables
     """
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Format Makefile output into formatted string
     formatted_makefile_Contents = makefile_parser.format_makefile_Contents(variables=variables)
@@ -101,14 +102,13 @@ def test_format_Makefile_variables(variables, makefile_name="Makefile", makefile
     # Output processed data
     return formatted_makefile_Variables
 
-def test_trim_makefile_Contents(targets, variables, makefile_name="Makefile", makefile_path=".") -> list:
+def test_trim_makefile_Contents(targets, variables) -> list:
     """
     Test trim function 'trim_makefile_contents()'
 
     Goal: Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
     """
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Format Makefile output into formatted string
     trimmed_targets, trimmed_variables = makefile_parser.trim_contents(targets, variables)
@@ -125,14 +125,13 @@ def test_trim_makefile_Contents(targets, variables, makefile_name="Makefile", ma
     # Output processed data
     return [formatted_trimmed_Targets, formatted_trimmed_Variables]
 
-def test_trim_makefile_Targets(targets, makefile_name="Makefile", makefile_path=".") -> list:
+def test_trim_makefile_Targets(targets) -> list:
     """
     Test trim function 'trim_makefile_contents()' for targets only
 
     Goal: Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
     """
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Format Makefile output into formatted string
     trimmed_targets = makefile_parser.trim_contents(targets=targets)
@@ -148,14 +147,13 @@ def test_trim_makefile_Targets(targets, makefile_name="Makefile", makefile_path=
     # Output processed data
     return formatted_trimmed_Targets
 
-def test_trim_makefile_Variables(variables, makefile_name="Makefile", makefile_path=".") -> list:
+def test_trim_makefile_Variables(variables) -> list:
     """
     Test trim function 'trim_makefile_contents()' for targets only
 
     Goal: Trim and remove all special characters ("\n", "\t" etc) from the imported file contents
     """
     # Initialize Variables
-    makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
 
     # Format Makefile output into formatted string
     trimmed_variables = makefile_parser.trim_contents(variables=variables)
@@ -187,15 +185,17 @@ def main():
         makefile_path = argv[0]
         makefile_name = argv[1]
 
+    init(makefile_name, makefile_path)
+
     # Test Makefile import
     print("Testing Makefile import...")
-    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
+    targets, variables, comments = test_Makefile()
 
     print("")
 
     # Test Makefile data formatting
     print("Testing Makefile data formatting...")
-    formatted_makefile_Targets, formatted_makefile_Variables = test_format_Makefile(targets, variables, makefile_name, makefile_path)
+    formatted_makefile_Targets, formatted_makefile_Variables = test_format_Makefile(targets, variables)
     print("=========")
     print("Variables")
     print("=========")
@@ -220,7 +220,7 @@ def main():
 
     # Testing 'format_makefile_Contents()' only for the target
     print("Testing 'format_makefile_Contents()' only for the target...")
-    formatted_makefile_Targets = test_format_Makefile_target(targets, makefile_name, makefile_path)
+    formatted_makefile_Targets = test_format_Makefile_target(targets)
 
     print("=======")
     print("Targets")
@@ -235,7 +235,7 @@ def main():
 
     # Testing 'format_makefile_Contents()' only for the variables
     print("Testing 'format_makefile_Contents()' only for the variables...")
-    formatted_makefile_Variables = test_format_Makefile_variables(variables, makefile_name, makefile_path)
+    formatted_makefile_Variables = test_format_Makefile_variables(variables)
 
     print("=========")
     print("Variables")
@@ -260,13 +260,13 @@ def main():
 
     # Resetting
     print("Resetting...")
-    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
+    targets, variables, comments = test_Makefile()
 
     print("")
 
     # Test Makefile trim contents for targets and variables
     print("Testing Makefile content trim...")
-    trimmed_makefile_Targets, trimmed_makefile_Variables = test_trim_makefile_Contents(targets, variables, makefile_name, makefile_path)
+    trimmed_makefile_Targets, trimmed_makefile_Variables = test_trim_makefile_Contents(targets, variables)
     print("=========")
     print("Variables")
     print("=========")
@@ -291,11 +291,11 @@ def main():
 
     # Resetting
     print("Resetting...")
-    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
+    targets, variables, comments = test_Makefile()
 
     # Test Makefile trim contents for targets only
     print("Testing Makefile content trim for Targets only...")
-    trimmed_makefile_Targets = test_trim_makefile_Targets(targets, makefile_name, makefile_path)
+    trimmed_makefile_Targets = test_trim_makefile_Targets(targets)
 
     print("=======")
     print("Targets")
@@ -310,13 +310,13 @@ def main():
 
     # Resetting
     print("Resetting...")
-    targets, variables, comments = test_Makefile(makefile_name, makefile_path)
+    targets, variables, comments = test_Makefile()
 
     print("")
 
     # Test Makefile trim contents for variables only
     print("Testing Makefile content trim for Variables only...")
-    trimmed_makefile_Variables = test_trim_makefile_Variables(variables, makefile_name, makefile_path)
+    trimmed_makefile_Variables = test_trim_makefile_Variables(variables)
     print("=========")
     print("Variables")
     print("=========")
@@ -458,7 +458,7 @@ enter: clone
     # Export the generated Makefile
     test_export_Makefile(targets, variables, makefile_name="test-export.Makefile")
     # Format the generated Makefile into human-readable standard output
-    formatted_makefile_Targets, formatted_makefile_Variables = test_format_Makefile(targets, variables, makefile_name, makefile_path)
+    formatted_makefile_Targets, formatted_makefile_Variables = test_format_Makefile(targets, variables)
     print("=========")
     print("Variables")
     print("=========")

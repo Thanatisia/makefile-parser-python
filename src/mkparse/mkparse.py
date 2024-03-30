@@ -4,7 +4,7 @@ Makefile Parser
 import os
 import sys
 
-class MakefileParser():
+class Parser():
     """
     Makefile - make build system configuration file - parser
     """

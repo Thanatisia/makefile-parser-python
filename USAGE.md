@@ -13,7 +13,7 @@ Information regarding the various ways to use this Makefile parser
 - mkparse
 
 ### Classes
-- `MakefileParser(makefile_name="Makefile", makefile_path="."` : Primary makefile parser class
+- `Parser(makefile_name="Makefile", makefile_path="."` : Primary makefile parser class; previously named 'MakefileParser()'
     - Class Constructor Parameters
         - makefile_name : Specify the file name of the target Makefile
             + Type: String
