@@ -7,6 +7,7 @@
 + [2024-03-27](#2024-03-27)
 + [2024-03-28](#2024-03-28)
 + [2024-03-29](#2024-03-29)
++ [2024-03-30](#2024-03-30)
 
 ## Entry Logs
 ### 2024-03-23
@@ -379,4 +380,56 @@
         - Function 'parse_makefile()'
             - Added '1' to the 2nd parameter of '.split(delimiter)' to specify a maximum number of searches of occurences of the specified delimiter
                 + Basically, the goal is to search for only the first occurence of '=', '?=' or ':=', and if found - thats the delimiter
+
+### 2024-03-30
+#### 0013H
+- Updates
+    - Updated document 'USAGE.md'
+        - Added documentation for new function 'parse_makefile_string(self, makefile_string="")'
+            + Added usage examples 
+    - Updated source file 'mkparse.py' in 'src/mkparse' 
+        + Added new function `parse_makefile_string(self, makefile_string="")`: To parse Makefile strings into the system without a file
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Added unit test for parsing a template Makefile string into system, exporting it for comparison, then pretty printing the containers into standard output
+
+#### 0026H
+- Updates
+    - Updated document 'USAGE.md'
+        + Added documentation for new function 'ast_parse()'
+    - Updated source file 'mkparse.py' in 'src/mkparse' 
+        + Added new function `ast_parse(self, makefile_string_contents=None)`: The Makefile parser core unit; the parsing will go through this
+        + Migrated the parsing functionality of 'parse_makefile_string()' to 'ast_parse()'
+
+#### 0034H
++ Version: v0.5.0
+
+- Version Changes
+    - mkparse
+        - Added new function `parse_makefile_string(self, makefile_string="")`: To parse Makefile strings into the system without a file
+            + Functionality to import not just from a file, but from a string
+        - Added new function `ast_parse(self, makefile_string_contents=None)`: The Makefile parser core unit; the parsing will go through this
+            + Separate core parser logic containing the 'AST' of a Makefile allows standalone implementation of the Makefile logic in other functions
+            + Migrated the parsing functionality of 'parse_makefile_string()' to 'ast_parse()'
+        + Renamed class 'MakefileParser' => 'Parser'
+
+- Updates
+    - Updated document 'README.md'
+        + Updated version number to 0.5.0
+    - Updated Python packaging script 'setup.py' for setuptools
+        + Updated version number to 0.5.0
+    - Updated document 'USAGE.md'
+        - Added documentation for new function 'parse_makefile_string(self, makefile_string="")'
+            + Added usage examples 
+        + Added documentation for new function 'ast_parse()'
+        + Updated class entry 'MakefileParser(...)' => 'Parser(...)'
+    - Updated source file 'mkparse.py' in 'src/mkparse' 
+        + Added new function 'parse_makefile_string(self, makefile_string="")': To parse Makefile strings into the system without a file
+        + Added new function 'ast_parse(self, makefile_string_contents=None)': The Makefile parser core unit; the parsing will go through this
+        + Migrated the parsing functionality of 'parse_makefile_string()' to 'ast_parse()'
+        + Renamed class 'MakefileParser' => 'Parser'
+    - Updated unit test file 'unittest.py' in 'tests/'
+        + Added unit test for parsing a template Makefile string into system, exporting it for comparison, then pretty printing the containers into standard output
+        + Updated import from 'MakefileParser' => 'Parser'
+        + Added function 'init()' to initialize the class variables
+        + Removed all initialization of class variable 'Parser' except in the 'init()' function
 
