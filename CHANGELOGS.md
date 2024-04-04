@@ -439,3 +439,22 @@
 - New
     + Added new python packaging toml configuration file 'pyproject.toml' for replacing setup.py
 
+
+#### 2108H
++ Version: v0.6.0
+
+- Version Changes
+    - Repository changes of note
+        + Replaced 'setup.py' with 'pyproject.toml' which not only allows for use of setuptools, but compatibility with other build systems
+    - Bug Fixes
+        + Fixed bug where library/modules can be imported in Linux after installation, but has issues being imported on Windows
+
+- New
+    + Added new python packaging toml configuration file 'pyproject.toml' for replacing setup.py
+
+- Updates
+    - Updated document 'README.md'
+        + Updated package version to '0.6.0'
+    - Replaced 'setup.py' with 'pyproject.toml' which not only allows for use of setuptools, but compatibility with other build systems
+        + Updated package version to '0.6.0'
+
