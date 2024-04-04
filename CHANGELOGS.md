@@ -8,6 +8,7 @@
 + [2024-03-28](#2024-03-28)
 + [2024-03-29](#2024-03-29)
 + [2024-03-30](#2024-03-30)
++ [2024-04-04](#2024-04-04)
 
 ## Entry Logs
 ### 2024-03-23
@@ -432,4 +433,28 @@
         + Updated import from 'MakefileParser' => 'Parser'
         + Added function 'init()' to initialize the class variables
         + Removed all initialization of class variable 'Parser' except in the 'init()' function
+
+### 2024-04-04
+#### 2102H
+- New
+    + Added new python packaging toml configuration file 'pyproject.toml' for replacing setup.py
+
+
+#### 2108H
++ Version: v0.6.0
+
+- Version Changes
+    - Repository changes of note
+        + Replaced 'setup.py' with 'pyproject.toml' which not only allows for use of setuptools, but compatibility with other build systems
+    - Bug Fixes
+        + Fixed bug where library/modules can be imported in Linux after installation, but has issues being imported on Windows
+
+- New
+    + Added new python packaging toml configuration file 'pyproject.toml' for replacing setup.py
+
+- Updates
+    - Updated document 'README.md'
+        + Updated package version to '0.6.0'
+    - Replaced 'setup.py' with 'pyproject.toml' which not only allows for use of setuptools, but compatibility with other build systems
+        + Updated package version to '0.6.0'
 
