@@ -8,6 +8,7 @@
 + [2024-03-28](#2024-03-28)
 + [2024-03-29](#2024-03-29)
 + [2024-03-30](#2024-03-30)
++ [2024-04-04](#2024-04-04)
 
 ## Entry Logs
 ### 2024-03-23
@@ -432,4 +433,9 @@
         + Updated import from 'MakefileParser' => 'Parser'
         + Added function 'init()' to initialize the class variables
         + Removed all initialization of class variable 'Parser' except in the 'init()' function
+
+### 2024-04-04
+#### 2102H
+- New
+    + Added new python packaging toml configuration file 'pyproject.toml' for replacing setup.py
 
