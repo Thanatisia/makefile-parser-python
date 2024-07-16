@@ -23,7 +23,7 @@ Information regarding the various ways to use this Makefile parser
             + Default: "." (Current Working Directory)
 
 ### Functions
-- MakefileParser
+- Parser
     - `.ast_parse(makefile_string_contents=None)`: Makefile parser core unit
         - Parameter/Argument Signatures
             - makefile_string_contents : Specify the Makefile content body (after splitting by newline) you wish to import and parse into the memory buffer
@@ -299,7 +299,7 @@ Information regarding the various ways to use this Makefile parser
 ### Data Classes/Types
 
 ### Attributes/Variables Objects
-- MakefileParser
+- Parser
     - `.makefile_path` : The specified file path of the target Makefile
         + Type: String
     - `.makefile_name` : The specified file name of the target Makefile
@@ -311,7 +311,7 @@ Information regarding the various ways to use this Makefile parser
 
 - Import python package
     ```python
-    from mkparse.mkparse import MakefileParser
+    from mkparse.mkparse import Parser
     ```
 
 - Initialize Variables
@@ -337,9 +337,9 @@ Information regarding the various ways to use this Makefile parser
     ```
 
 - Initialize Module Classes
-    - MakefileParser : The primary makefile file parser
+    - Parser : The primary makefile file parser
         ```python
-        makefile_parser = MakefileParser(makefile_name, makefile_path) # Initialize Makefile Parser
+        makefile_parser = Parser(makefile_name, makefile_path) # Initialize Makefile Parser
         ```
 
 - Import Makefile file contents into python dictionary (key-value mappings; i.e. HashMap/Associative Array)
